@@ -5,13 +5,17 @@ import BottomSig from "@/utils/bottomSig";
 import Select from "react-select";
 import { setSelectedToken } from "@/redux/aikiSend";
 import InputAddress from "@/components/inputAddress";
+import { HiArrowLongRight } from "react-icons/hi2";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
     const [availableTokens, setAvailableTokens] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [tokenOfChoice, setTokenOfChoice] = useState([]);
+    const [nextButton, setNextButton] = useState(true);
 
     const dispatch = useDispatch();
+    const router = useRouter();
 
     const address = useSelector((state) => state.aikiSend.address);
     const userTokens = useSelector((state) => state.aikiSend.availableTokens);
@@ -37,12 +41,25 @@ const Page = () => {
     }, [userTokens]);
 
     useEffect(() => {
-        const selectedToken = tokenOfChoice.map((token) => {
+        const newSelectedToken = tokenOfChoice.map((token) => {
+            const existingToken = selectedToken.find(
+                (selectedToken) => selectedToken.token_address === token.value
+            );
+            if (existingToken) {
+                return existingToken;
+            }
             const ans = userTokens.find(
                 (userToken) => userToken.token_address === token.value
             );
-            return ans;
-            // const newTokens = [...selectedToken, ans];
+            return {
+                name: ans.name,
+                balance: ans.balance,
+                decimals: ans.decimals,
+                token_address: ans.token_address,
+                recipient: [],
+                allowance: null,
+            };
+            // const newTokens = [...newSelectedToken, ans];
             // dispatch(setSelectedToken([...newTokens]));
             // const newAvailableTokens = availableTokens.filter(
             //     (availableToken) => availableToken.value !== token.value
@@ -50,28 +67,20 @@ const Page = () => {
             // setAvailableTokens(newAvailableTokens);
         });
 
-        dispatch(setSelectedToken([...selectedToken]));
+        dispatch(setSelectedToken([...newSelectedToken]));
     }, [tokenOfChoice]);
 
-    const addSelectedToken = () => {
-        // console.log({ tokenOfChoice });
-        // const ans = userTokens.find(
-        //     (token) => token.token_address === tokenOfChoice
-        // );
-        // const newTokens = [...selectedToken, ans];
-        // dispatch(setSelectedToken([...newTokens]));
-        // const newAvailableTokens = availableTokens.filter(
-        //     (token) => token.value !== tokenOfChoice
-        // );
-        // setAvailableTokens(newAvailableTokens);
-        tokenOfChoice.map((token) => {
-            const ans = userTokens.find(
-                (userToken) => userToken.token_address === token.value
+    useEffect(() => {
+        if (selectedToken.length > 0) {
+            const recipient = selectedToken.reduce(
+                (acc, token) => acc + token.recipient.length,
+                0
             );
-            const newTokens = [...selectedToken, ans];
-            dispatch(setSelectedToken([...newTokens]));
-        });
-    };
+            if (recipient > 0) {
+                setNextButton(false);
+            }
+        }
+    }, [selectedToken]);
 
     const customStyles = {
         option: (defaultStyles, state) => ({
@@ -90,7 +99,7 @@ const Page = () => {
             ...defaultStyles,
             borderWidth: "3px",
             // borderRadius: "8px",
-            maxHeight: "57px",
+            maxHeight: "60px",
             overflow: "auto",
             // backgroundColor: "#212529",
             outline: "none",
@@ -110,11 +119,11 @@ const Page = () => {
 
     return (
         <section className="flex flex-col flex-1 h-full ">
-            <div className="flex-1 h-full gap-y-12 py-12 flex flex-col items-center  justify-center">
+            <div className="flex-1 h-full gap-y-12 flex flex-col items-center  justify-center">
                 <div className="flex relative max-w-2xl 3xl:max-w-3xl flex-col  w-full">
                     <h1 className="">Select Tokens</h1>
                     <Select
-                        className=" max-w-2xl 3xl:max-w-3xl w-full shadow-neo-brutalism-sm rounded"
+                        className=" max-w-2xl 3xl:max-w-3xl cursor-pointer w-full shadow-neo-brutalism-sm rounded"
                         styles={customStyles}
                         classNamePrefix="select token"
                         closeMenuOnSelect={false}
@@ -128,22 +137,25 @@ const Page = () => {
                             setTokenOfChoice(selectedOption);
                         }}
                     />
-                    {/* <button
-                            disabled={!tokenOfChoice}
-                            onClick={addSelectedToken}
-                            className={`h-full transition-all  duration-200  px-8 bg-gray-300 border-[3px]  border-black rounded-lg text-lg font-bold shadow-neo-brutalism-sm ${
-                                tokenOfChoice
-                                    ? "active:scale-100 active:shadow-none hover:scale-105"
-                                    : "text-gray-500 cursor-not-allowed"
-                            }`}
-                        >
-                            Add
-                        </button> */}
                 </div>
-                <div className="h-full border-4 scrollbar-thin  max-h-80 overflow-auto flex flex-col gap-y-4 py-4 border-black max-w-4xl 3xl:max-w-5xl flex-1 w-full rounded-xl shadow-neo-brutalism-lg">
-                    {selectedToken.map((token) => {
-                        return <InputAddress token={token} />;
+                <div className="h-full border-4 scrollbar-thin  max-h-80 overflow-auto flex flex-col gap-y-2 py-4 border-black max-w-4xl 3xl:max-w-5xl flex-1 w-full rounded-xl shadow-neo-brutalism-lg">
+                    {selectedToken.map((token, index) => {
+                        return <InputAddress token={token} key={index} />;
                     })}
+                </div>
+                <div className="w-full 3xl:mt-8 3xl:px-80 flex justify-end px-64 ">
+                    <button
+                        disabled={nextButton}
+                        onClick={() => router.push("/send/approveTokens")}
+                        className={`relative text-3xl  transition-all duration-200 flex items-end flex-col w-min   ${
+                            nextButton
+                                ? "text-gray-400"
+                                : "text-black hover:translate-x-2 cursor-pointer group"
+                        }`}
+                    >
+                        <HiArrowLongRight className="absolute group-hover:translate-x-4 transition-all duration-200 w-24 h-24 -top-[140%] -right-10" />
+                        NEXT
+                    </button>
                 </div>
             </div>
 
