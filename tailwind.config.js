@@ -21,6 +21,9 @@ module.exports = {
                 "neo-brutalism-xs": "2px 2px 0px black",
                 "neo-brutalism-sm": "5px 5px 0px black",
                 "neo-brutalism-lg": "12px 12px 0px black",
+                "inside-neo-brutalism-xs":
+                    "inset 0px 8px 15px -6px rgba(50, 50, 93, 0.25), inset 0px 4px 9px -9px rgba(0, 0, 0, 0.3)",
+                "inner-2": "inset 0 6px 12px 0 rgb(0 0 0 / 0.05);",
             },
             screens: {
                 "3xl": "1792px ",

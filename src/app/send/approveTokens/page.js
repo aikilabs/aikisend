@@ -76,16 +76,28 @@ const Page = () => {
                                 <Link
                                     className="underline font-light text-pink-500"
                                     href="https://github.com/Uniswap/permit2"
+                                    target="_blank"
                                 >
                                     UNISWAP PERMIT2
                                 </Link>
                             </p>
+                            <p className="sm:text-sm text-xs text-gray-500">
+                                You can also revoke approval here
+                                {` `}
+                                <Link
+                                    className="underline font-bold text-black"
+                                    href="http://revoke.cash"
+                                    target="_blank"
+                                >
+                                    revoke.cash
+                                </Link>
+                            </p>
                         </div>
                     </div>
-                    <div className="w-full flex justify-end px-4 my-2">
+                    <div className="w-full flex justify-end px-4 mt-4">
                         <button
                             onClick={() => router.push("/send/transferTokens")}
-                            className="md:px-2.5 md:py-2.5 p-1 text-sm rounded-lg shadow-neo-brutalism-sm border-2 md:border-[3px] bg-gray-500 text-white border-black transition-all duration-100 hover:scale-110 active:shadow-none active:scale-100 active:translate-x-1 active:translate-y-1"
+                            className="md:px-8 md:py-2.5 py-1 px-4 text-sm rounded-lg shadow-neo-brutalism-sm border-2 md:border-[3px] bg-gray-500 text-white border-black transition-all duration-100 hover:scale-110 active:shadow-none active:scale-100 active:translate-x-1 active:translate-y-1"
                         >
                             Proceed
                         </button>
@@ -97,7 +109,7 @@ const Page = () => {
                         >
                             <HiArrowLongLeft className="transition-all duration-100 w-10 h-10 sm:w-20 sm:h-20 -top-[140%] -right-10" />
                         </button>
-                        <div className="lg:flex-1 w-full flex flex-col border-4 rounded-xl space-y-12 lg:space-y-0 lg:grid 3xl:grid-cols-3 xl:grid-cols-2 items-center xl:items-start lg:gap-12 overflow-auto  px-4 lg:px-6 lg:py-10 py-6 scrollbar-thin">
+                        <div className="lg:flex-1 min-h-[6rem] w-full flex flex-col border-4 rounded-xl space-y-12 lg:space-y-0 lg:grid 3xl:grid-cols-3 xl:grid-cols-2 items-center xl:items-start lg:gap-12 overflow-auto  px-4 lg:px-6 lg:py-10 py-6 scrollbar-thin shadow-inner-2">
                             {selectedToken.map((token, index) => {
                                 const totalAmountToSend =
                                     token.recipient.reduce(
@@ -120,7 +132,7 @@ const Page = () => {
                             })}
                         </div>
                         <div className="scrollbar-thin lg:w-64 min-h-[6rem] w-full max-h-[16rem] lg:h-64 border-4 border-black md:p-4 p-1 rounded-xl overflow-auto sm:shadow-neo-brutalism-lg">
-                            <h2 className="underline font-semibold">
+                            <h2 className="underline font-semibold text-center text-lg">
                                 Approved Tokens
                             </h2>
                             {selectedToken.map((token, index) => {
@@ -134,7 +146,7 @@ const Page = () => {
                                     return (
                                         <h3
                                             key={token.token_address}
-                                            className="text-sm"
+                                            className=""
                                         >
                                             {token.name}
                                         </h3>

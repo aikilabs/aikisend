@@ -4,3 +4,5 @@ cast send 0x6b175474e89094c44da98b954eedeac495271d0f --unlocked --from 0x075e72a
 cast call 0x6b175474e89094c44da98b954eedeac495271d0f \
   "balanceOf(address)(uint256)" \
   0x075e72a5eDf65F0A5f44699c7654C1a76941Ddc8
+
+"inner-2":"inset 0 6px 12px 0 rgb(0 0 0 / 0.05);"

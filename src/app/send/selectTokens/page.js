@@ -7,6 +7,7 @@ import { setSelectedToken } from "@/redux/aikiSend";
 import InputAddress from "@/components/inputAddress";
 import { HiArrowLongRight } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
+import Loading from "../loading";
 
 const Page = () => {
     const [availableTokens, setAvailableTokens] = useState([]);
@@ -117,6 +118,9 @@ const Page = () => {
         }),
         singleValue: (defaultStyles) => ({ ...defaultStyles, color: "#000" }),
     };
+    // if (true) {
+    //     return <Loading />;
+    // }
 
     return (
         <section className="flex flex-col flex-1 h-full ">

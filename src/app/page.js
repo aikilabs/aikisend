@@ -1,9 +1,14 @@
-import React from 'react'
+"use client";
+import { Router } from "next/router";
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const page = () => {
-  return (
-    <div>page</div>
-  )
-}
+    const router = useRouter();
+    useEffect(() => {
+        router.push("/send/selectTokens");
+    }, []);
+    return <div>page</div>;
+};
 
-export default page
+export default page;
