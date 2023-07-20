@@ -58,6 +58,7 @@ const Page = () => {
                 token_address: ans.token_address,
                 recipient: [],
                 allowance: null,
+                approved: false,
             };
             // const newTokens = [...newSelectedToken, ans];
             // dispatch(setSelectedToken([...newTokens]));
@@ -119,9 +120,9 @@ const Page = () => {
 
     return (
         <section className="flex flex-col flex-1 h-full ">
-            <div className="flex-1 h-full gap-y-12 flex flex-col items-center  justify-center">
+            <div className="flex-1 h-full gap-y-12 flex flex-col items-center justify-center px-6 ">
                 <div className="flex relative max-w-2xl 3xl:max-w-3xl flex-col  w-full">
-                    <h1 className="">Select Tokens</h1>
+                    <h1 className="text-sm md:text-base">Select Tokens</h1>
                     <Select
                         className=" max-w-2xl 3xl:max-w-3xl cursor-pointer w-full shadow-neo-brutalism-sm rounded"
                         styles={customStyles}
@@ -138,19 +139,19 @@ const Page = () => {
                         }}
                     />
                 </div>
-                <div className="h-full border-4 scrollbar-thin  max-h-80 overflow-auto flex flex-col gap-y-2 py-4 border-black max-w-4xl 3xl:max-w-5xl flex-1 w-full rounded-xl shadow-neo-brutalism-lg">
+                <div className="h-full border-4 scrollbar-thin  max-h-80 overflow-auto flex flex-col gap-y-4 py-4 border-black max-w-4xl 3xl:max-w-5xl flex-1 w-full rounded-xl shadow-neo-brutalism-lg">
                     {selectedToken.map((token, index) => {
                         return <InputAddress token={token} key={index} />;
                     })}
                 </div>
-                <div className="w-full 3xl:mt-8 3xl:px-80 flex justify-end px-64 ">
+                <div className="w-full 3xl:mt-8 flex justify-end max-w-3xl 3xl:max-w-4xl px-8 md:px-4">
                     <button
-                        disabled={nextButton}
                         onClick={() => router.push("/send/approveTokens")}
-                        className={`relative text-3xl  transition-all duration-200 flex items-end flex-col w-min   ${
+                        disabled={nextButton}
+                        className={`relative text-3xl transition-all duration-200 flex items-end flex-col w-min   ${
                             nextButton
                                 ? "text-gray-400"
-                                : "text-black hover:translate-x-2 cursor-pointer group"
+                                : "text-black cursor-pointer group"
                         }`}
                     >
                         <HiArrowLongRight className="absolute group-hover:translate-x-4 transition-all duration-200 w-24 h-24 -top-[140%] -right-10" />
