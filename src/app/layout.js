@@ -37,7 +37,7 @@ const wagmiConfig = createConfig({
     publicClient,
 });
 
-const ethereumClient = new EthereumClient(wagmiConfig, chains);
+export const ethereumClient = new EthereumClient(wagmiConfig, chains);
 
 // const { connectors } = getDefaultWallets({
 //     appName: "Zuxt",
@@ -45,7 +45,7 @@ const ethereumClient = new EthereumClient(wagmiConfig, chains);
 //     chains,
 // });
 
-export const metadata = {
+const metadata = {
     title: "Aikisend",
     description: "Multi token transfer",
 };

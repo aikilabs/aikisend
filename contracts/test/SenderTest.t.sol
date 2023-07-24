@@ -25,6 +25,8 @@ contract SenderTest is Test {
     uint256 senderKey;
     address sender;
 
+    uint256 senderKey2;
+
     address[] recipients;
 
     function setUp() public {
@@ -33,6 +35,7 @@ contract SenderTest is Test {
         
 
         senderKey = 1;
+        senderKey2 = 0xf8e68188463230451777b95c7e6881c5158d5a8f60873bf5f9886cb722f292da;
         sender = vm.addr(senderKey);
 
         // deal tokens to sender
@@ -45,8 +48,8 @@ contract SenderTest is Test {
         usdc.approve(address(permit2), type(uint256).max);
         dai.approve(address(permit2), type(uint256).max);
 
-        emit log_named_uint("usdc balance",usdc.balanceOf(sender));
-        emit log_named_uint("dai balance",dai.balanceOf(sender));
+        // emit log_named_uint("usdc balance",usdc.balanceOf(sender));
+        // emit log_named_uint("dai balance",dai.balanceOf(sender));
 
         for(uint i=0; i<=2; i++) {
             recipients.push(vm.addr(100+i));
@@ -58,8 +61,8 @@ contract SenderTest is Test {
         address[] memory _tokens = new address[](2);
         (_tokens[0],_tokens[1])=(address(usdc), address(dai));
 
-        emit log_named_address("usdc address", _tokens[0]);
-        emit log_named_address("dai address", _tokens[1]);
+        // emit log_named_address("usdc address", _tokens[0]);
+        // emit log_named_address("dai address", _tokens[1]);
 
         for(uint i=0; i<2; ++i) {
             IPermit2.TokenPermissions memory tokenPermission = IPermit2.TokenPermissions({
@@ -96,6 +99,22 @@ contract SenderTest is Test {
         vm.stopPrank();
     }
 
+    function test_sig() public {
+        IPermit2.TokenPermissions[] memory tokenPermissions2 = new IPermit2.TokenPermissions[](1);
+        tokenPermissions2[0] = IPermit2.TokenPermissions({
+                token: 0x326C977E6efc84E512bB9C30f76E30c160eD06FB,
+                amount: 1
+            });
+
+         IPermit2.PermitBatchTransferFrom memory permit_2 = IPermit2.PermitBatchTransferFrom({
+            permitted: tokenPermissions2,
+            nonce: 0,
+            deadline: 0
+        });
+        bytes memory _sig2 = _signPermit(permit_2, 0xccf69A469FA68bC7754efBCf4c5ec105dcd6333d, senderKey2);
+        emit log_named_bytes("sig2", _sig2);
+    }
+
 
     // sign EIP712 permit 
     function _signPermit(
@@ -104,6 +123,7 @@ contract SenderTest is Test {
         uint256 signerKey
     )
         internal
+        view
         returns(bytes memory sig)
     {
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(signerKey, _get712Hash(permit, spender));
