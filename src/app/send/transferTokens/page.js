@@ -3,13 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import BottomSig from "@/utils/bottomSig";
 
-// import { walletClient, publicClient } from "../../../../config";
-
 import { domain, types } from "./data";
-
 import { createWalletClient, custom } from 'viem'
 import { goerli } from 'viem/chains'
-import {ethereumClient} from '../layout'
 
 const Page = () => {
     const [transferDetails, setTransferDetails] = useState([])
@@ -66,9 +62,9 @@ const Page = () => {
             types,
             primaryType: 'PermitBatchTransferFrom',
             message: {
-                permitted: permitData.permitted,
-                nonce: permitData.nonce,
-                deadline: permitData.deadline
+                permitted: permit.permitted,
+                nonce: permit.nonce,
+                deadline: permit.deadline
             },
         })
         return signature;
