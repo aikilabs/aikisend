@@ -34,13 +34,13 @@ const Layout = ({ children }) => {
         });
 
         dispatch(setAllAvailableTokens(response.toJSON()));
-        console.log(response.toJSON());
+        // console.log(response.toJSON());
     };
 
     useEffect(() => {
         dispatch(changeWalletConnectionState(isConnected));
         dispatch(addUserAddress(address || ""));
-        console.log(address);
+        // console.log(address);
         if (address) {
             setTokens();
         }
@@ -50,7 +50,7 @@ const Layout = ({ children }) => {
 
     return (
         <main className="flex h-full flex-col">
-            <nav className="md:px-24 px-4 pt-8 pb-8 flex justify-between items-center">
+            <nav className="md:px-24 px-4 pt-8 pb-2 flex justify-between items-center">
                 <h1 className="font-extrabold text-lg md:text-3xl">AIKISEND</h1>
                 <button
                     onClick={() => open()}

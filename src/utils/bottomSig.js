@@ -5,7 +5,7 @@ const BottomSig = () => {
     const pathname = usePathname();
 
     return (
-        <div className="p-8 flex items-center justify-center gap-x-4">
+        <div className="p-8 pt-2 flex items-center justify-center gap-x-4">
             <div
                 className={`w-4 h-4 shadow-md bg-gray-200 border rounded-full ${
                     pathname.includes("selectTokens") ? "border-2 border-black shadow-neo-brutalism-xs" : "bg-white"

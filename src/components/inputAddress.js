@@ -3,6 +3,7 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectedToken } from "@/redux/aikiSend";
 import { isAddress } from "web3-validator";
+import { useEnsAddress } from "wagmi";
 
 const InputAddress = ({ token }) => {
     const [address, setAddress] = useState("");
@@ -10,8 +11,18 @@ const InputAddress = ({ token }) => {
     const dispatch = useDispatch();
     const selectedToken = useSelector((state) => state.aikiSend.selectedToken);
 
+    const { data, isError, isLoading } = useEnsAddress({
+        name: address,
+    });
+
     const addRecipient = async () => {
-        if (!isAddress(address)) return;
+        if (!isAddress(address)) {
+            if (data) {
+                // setAddress(data);
+            } else {
+                return;
+            }
+        }
         if (!address || !amount) return;
         let newBalance =
             token.balance / 10 ** token.decimals -
@@ -47,8 +58,14 @@ const InputAddress = ({ token }) => {
             });
             dispatch(setSelectedToken(newSelectedToken));
         } else {
+            let ensName = address;
+            let newAddress = address;
+            if (data) {
+                newAddress = data;
+            }
             const newRecipient = {
-                address,
+                address: newAddress,
+                ensName,
                 amount: amount * 10 ** token.decimals,
             };
             const newRecipientList = [...token.recipient, newRecipient];
@@ -80,8 +97,8 @@ const InputAddress = ({ token }) => {
     };
 
     useEffect(() => {
-        console.log({ token });
-    }, [token]);
+        console.log({ data });
+    }, [data]);
 
     return (
         <section className="border-4- py-2 bg-gray-500 text-white mx-4 rounded-2xl">
@@ -149,7 +166,7 @@ const InputAddress = ({ token }) => {
                                                 <FaMinus className="w-2 h-2 cursor-pointer " />
                                             </div>
                                             <h3 className="text-xs md:text-base break-words">
-                                                {recipient.address}
+                                                {recipient.ensName}
                                             </h3>
                                         </div>
                                         <h3 className="text-xs md:text-base font-semibold">

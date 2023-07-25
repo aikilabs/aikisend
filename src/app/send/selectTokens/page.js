@@ -32,7 +32,7 @@ const Page = () => {
                 })`,
             };
         });
-        console.log({ availableTokens });
+        // console.log({ availableTokens });
         setAvailableTokens(availableTokens);
 
         setIsLoading(false);
@@ -58,8 +58,8 @@ const Page = () => {
                 decimals: ans.decimals,
                 token_address: ans.token_address,
                 recipient: [],
-                allowance: null,
-                approved: false,
+                // allowance: null,
+                approved: null,
             };
             // const newTokens = [...newSelectedToken, ans];
             // dispatch(setSelectedToken([...newTokens]));
@@ -123,49 +123,50 @@ const Page = () => {
     // }
 
     return (
-        <section className="flex flex-col flex-1 h-full ">
-            <div className="flex-1 h-full gap-y-12 flex flex-col items-center justify-center px-6 ">
-                <div className="flex relative max-w-2xl 3xl:max-w-3xl flex-col  w-full">
-                    <h1 className="text-sm md:text-base">Select Tokens</h1>
-                    <Select
-                        className=" max-w-2xl 3xl:max-w-3xl cursor-pointer w-full shadow-neo-brutalism-sm rounded"
-                        styles={customStyles}
-                        classNamePrefix="select token"
-                        closeMenuOnSelect={false}
-                        isLoading={isLoading}
-                        isClearable={true}
-                        isMulti
-                        isSearchable={true}
-                        name="Select Token"
-                        options={availableTokens}
-                        onChange={(selectedOption) => {
-                            setTokenOfChoice(selectedOption);
-                        }}
-                    />
+        <>
+            <section className="flex flex-col flex-1 h-full overflow-auto">
+                <div className="h-full overflow-auto gap-y-12 flex flex-col items-center px-6 py-2 ">
+                    <div className="flex relative max-w-2xl 3xl:max-w-3xl flex-col w-full">
+                        <h1 className="text-sm md:text-base">Select Tokens</h1>
+                        <Select
+                            className=" max-w-2xl 3xl:max-w-3xl cursor-pointer w-full shadow-neo-brutalism-sm rounded"
+                            styles={customStyles}
+                            classNamePrefix="select token"
+                            closeMenuOnSelect={false}
+                            isLoading={isLoading}
+                            isClearable={true}
+                            isMulti
+                            isSearchable={true}
+                            name="Select Token"
+                            options={availableTokens}
+                            onChange={(selectedOption) => {
+                                setTokenOfChoice(selectedOption);
+                            }}
+                        />
+                    </div>
+                    <div className="h-full border-4 scrollbar-thin overflow-auto flex flex-col gap-y-4 py-4 border-black max-w-4xl 3xl:max-w-5xl w-full rounded-xl shadow-neo-brutalism-lg">
+                        {selectedToken.map((token, index) => {
+                            return <InputAddress token={token} key={index} />;
+                        })}
+                    </div>
+                    <div className="w-full max-w-3xl 3xl:max-w-4xl grid place-content-end">
+                        <button
+                            onClick={() => router.push("/send/approveTokens")}
+                            disabled={nextButton}
+                            className={`relative text-3xl italic  transition-all duration-200 ${
+                                nextButton
+                                    ? "text-gray-400"
+                                    : "text-black cursor-pointer hover:translate-x-4"
+                            }`}
+                        >
+                            NEXT
+                            {/* <HiArrowLongRight className="" /> */}
+                        </button>
+                    </div>
                 </div>
-                <div className="h-full border-4 scrollbar-thin  max-h-80 overflow-auto flex flex-col gap-y-4 py-4 border-black max-w-4xl 3xl:max-w-5xl flex-1 w-full rounded-xl shadow-neo-brutalism-lg">
-                    {selectedToken.map((token, index) => {
-                        return <InputAddress token={token} key={index} />;
-                    })}
-                </div>
-                <div className="w-full 3xl:mt-8 flex justify-end max-w-3xl 3xl:max-w-4xl px-8 md:px-4">
-                    <button
-                        onClick={() => router.push("/send/approveTokens")}
-                        disabled={nextButton}
-                        className={`relative text-3xl transition-all duration-200 flex items-end flex-col w-min   ${
-                            nextButton
-                                ? "text-gray-400"
-                                : "text-black cursor-pointer group"
-                        }`}
-                    >
-                        <HiArrowLongRight className="absolute group-hover:translate-x-4 transition-all duration-200 w-24 h-24 -top-[140%] -right-10" />
-                        NEXT
-                    </button>
-                </div>
-            </div>
-
+            </section>
             <BottomSig />
-        </section>
+        </>
     );
 };
 

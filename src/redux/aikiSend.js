@@ -5,6 +5,7 @@ const initialState = {
     walletConnected: false,
     availableTokens: [],
     selectedToken: [],
+    approvedToken: [],
 };
 
 export const aikiSend = createSlice({
@@ -23,6 +24,9 @@ export const aikiSend = createSlice({
         setSelectedToken: (state, action) => {
             state.selectedToken = action.payload;
         },
+        setApprovedToken: (state, action) => {
+            state.approvedToken = action.payload;
+        },
     },
 });
 
@@ -32,6 +36,7 @@ export const {
     changeWalletConnectionState,
     setAllAvailableTokens,
     setSelectedToken,
+    setApprovedToken,
 } = aikiSend.actions;
 
 export default aikiSend.reducer;
