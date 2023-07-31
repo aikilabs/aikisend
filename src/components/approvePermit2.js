@@ -15,6 +15,7 @@ const ApprovePermit2 = ({ token, amount }) => {
         abi: abi,
         functionName: "approve",
         args: [
+            // permit2 contract address
             "0x000000000022D473030F116dDEE9F6B43aC78BA3",
             // max uint256 value
             "115792089237316195423570985008687907853269984665640564039457584007913129639935",

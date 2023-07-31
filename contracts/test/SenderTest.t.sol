@@ -30,12 +30,13 @@ contract SenderTest is Test {
     address[] recipients;
 
     function setUp() public {
+        vm.chainId(5);
         uint256 forkId = vm.createFork(string.concat("https://eth-mainnet.g.alchemy.com/v2/", vm.envString("ALCHEMY_API")));
         vm.selectFork(forkId);
         
 
         senderKey = 1;
-        senderKey2 = 0xf8e68188463230451777b95c7e6881c5158d5a8f60873bf5f9886cb722f292da;
+        senderKey2 = vm.envString("SENDER2_PRIVATE_KEY");
         sender = vm.addr(senderKey);
 
         // deal tokens to sender
@@ -103,9 +104,9 @@ contract SenderTest is Test {
         IPermit2.TokenPermissions[] memory tokenPermissions2 = new IPermit2.TokenPermissions[](1);
         tokenPermissions2[0] = IPermit2.TokenPermissions({
                 token: 0x326C977E6efc84E512bB9C30f76E30c160eD06FB,
-                amount: 1
+                amount: 1 * 10**18
             });
-
+        
          IPermit2.PermitBatchTransferFrom memory permit_2 = IPermit2.PermitBatchTransferFrom({
             permitted: tokenPermissions2,
             nonce: 0,
@@ -113,6 +114,7 @@ contract SenderTest is Test {
         });
         bytes memory _sig2 = _signPermit(permit_2, 0xccf69A469FA68bC7754efBCf4c5ec105dcd6333d, senderKey2);
         emit log_named_bytes("sig2", _sig2);
+        // assertEq(1000000000000000000, tokenPermissions2[0].amount);
     }
 
 

@@ -2,15 +2,14 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import BottomSig from "@/utils/bottomSig";
-// import { walletClient, publicClient } from "../../../../config";
 import { domain, types } from "./data";
 import { createWalletClient, custom } from "viem";
 import { goerli } from "viem/chains";
-import { ethereumClient } from "../layout";
 import { useRouter } from "next/navigation";
 import Loading from "../loading";
 import { HiArrowLongLeft, HiArrowLongRight } from "react-icons/hi2";
 import SendToken from "@/components/sendToken";
+import { getRandomNonce, MAX_UINT256 } from "../helpers";
 
 const Page = () => {
     const [transferDetails, setTransferDetails] = useState([]);
@@ -21,14 +20,11 @@ const Page = () => {
 
     const approvedTokens = useSelector((state) => state.aikiSend.approvedToken);
     const account = useSelector((state) => state.aikiSend.address);
-    const nonce = useSelector((state) => state.aikiSend.nonce);
     const address = useSelector((state) => state.aikiSend.address);
 
     const router = useRouter();
 
-    const MAX_UINT256 = BigInt(
-        "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-    );
+
     const walletClient = createWalletClient({
         account,
         chain: goerli,
@@ -37,7 +33,6 @@ const Page = () => {
 
     async function signTransferData() {
         if (!account) return;
-        console.log("account", account);
 
         const permit = Object.create(null);
         const tokenPermissionsData = [];
@@ -47,9 +42,10 @@ const Page = () => {
             console.log("recipients", token.recipient);
 
             token.recipient.forEach(({ address, amount }) => {
+                console.log('requested amount ', amount)
                 tokenPermissionsData.push({
                     token: token.token_address,
-                    amount: BigInt(amount),
+                    amount: `${amount}`,
                 });
 
                 details.push({
@@ -66,48 +62,27 @@ const Page = () => {
         setPermitData(permit);
         setTransferDetails(details);
 
-        const chainId = await walletClient.getChainId();
-        console.log("chainid", chainId);
-
-        const signature = await walletClient.signTypedData({
-            account,
-            domain: { ...domain, chainId },
-            types,
-            primaryType: "PermitBatchTransferFrom",
-            message: {
-                permitted: permit.permitted,
-                nonce: permit.nonce,
-                deadline: permit.deadline,
-            },
-        });
-        setSignature(signature);
-    }
-
-    async function handleSign() {
-        await signTransferData();
-        console.log({
-            signature,
-            permitData,
-            transferDetails,
-            address,
-        });
-        if (transferDetails.length === 0) {
-            await signTransferData();
+        try {
+            const signature = await walletClient.signTypedData({
+                account,
+                domain: { ...domain, chainId: 5 },
+                types,
+                primaryType: "PermitBatchTransferFrom",
+                message: {
+                    ...permit,
+                    spender: account,
+                },
+            });
+            console.log("signatuer viem ::", signature)
+            setSignature(signature)
+        }catch(err) {
+            setSignature(null)
+            console.log(err.message)
         }
-    }
-
-    // compute a random nonce as BigInt
-    function getRandomNonce() {
-        const MAX_UINT128 = BigInt("0xffffffffffffffffffffffffffffffff");
-        let nonce = BigInt(Math.floor(10 * Math.random())) * MAX_UINT128;
-        while (nonce == 0n) {
-            nonce = BigInt(Math.floor(10 * Math.random())) * MAX_UINT128;
-        }
-        return nonce;
     }
 
     useEffect(() => {
-        console.log(address);
+        console.log("address", address);
         setLoading(true);
         if (approvedTokens.length === 0) {
             return router.push("/send/approveTokens");
@@ -179,20 +154,21 @@ const Page = () => {
                     </table>
                 </div>
                 <div className="w-full flex items-center justify-end pr-8">
-                    <button
-                        className="sm:text-3xl sm:py-3 sm:px-12 text-lg px-4 py-1 rounded-full bg-gray-200 border-2 border-black active:shadow-none shadow-neo-brutalism-sm"
-                        onClick={handleSign}
-                    >
-                        "sign"
-                    </button>
-                    {transferDetails.length > 0 && (
-                        <SendToken
-                            permitData={permitData}
-                            transferDetails={transferDetails}
-                            address={address}
-                            signature={signature}
-                        />
-                    )}
+                    {
+                        !Boolean(signature) ?
+                            <button
+                                className="sm:text-3xl sm:py-3 sm:px-12 text-lg px-4 py-1 rounded-full bg-gray-200 border-2 border-black active:shadow-none shadow-neo-brutalism-sm"
+                                onClick={signTransferData}
+                            >
+                                Sign Data...
+                            </button> :
+                            <SendToken
+                                permitData={permitData}
+                                transferDetails={transferDetails}
+                                address={address}
+                                signature={signature}
+                            />
+                    }
                 </div>
             </section>
             <BottomSig />
