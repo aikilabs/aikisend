@@ -1,6 +1,5 @@
 "use client";
 import "./globals.css";
-import { Inter } from "next/font/google";
 import React, { useEffect } from "react";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
@@ -34,7 +33,6 @@ import store from "../redux/store";
 import { Provider } from "react-redux";
 const Moralis = require("moralis").default;
 
-const inter = Inter({ subsets: ["latin"] });
 
 const { chains, publicClient } = configureChains(
     [

@@ -18,10 +18,10 @@ const Success = () => {
     }, []);
     return (
         <>
-            <div class=" h-screen">
-                <div class="bg-white p-6  md:mx-auto">
+            <div className=" h-screen">
+                <div className="p-6  md:mx-auto">
                     <svg
-                        class="h-16 w-16 text-red-600 mx-auto my-6 cursor-pointer"
+                        className="h-16 w-16 text-red-600 mx-auto my-6 cursor-pointer"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -34,20 +34,20 @@ const Success = () => {
                             d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                     </svg>
-                    <div class="text-center">
-                        <h3 class="md:text-2xl text-base text-gray-900 font-semibold text-center">
+                    <div className="text-center">
+                        <h3 className="md:text-2xl text-base text-gray-900 font-semibold text-center">
                             Transaction Failed!
                         </h3>
-                        <p class="text-gray-600 my-2">
+                        <p className="text-gray-600 my-2">
                             Your transaction was not successful.
                         </p>
                         <p> Damn! </p>
-                        <div class="py-10 text-center">
+                        <div className="py-10 text-center">
                             <button
                                 onClick={() =>
                                     router.push("/send/selectTokens")
                                 }
-                                class="px-12 border-2 border-black rounded font-semibold py-3"
+                                className="px-12 border-2 border-black rounded font-semibold py-3"
                             >
                                 Restart
                             </button>

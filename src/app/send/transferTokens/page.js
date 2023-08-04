@@ -17,6 +17,7 @@ const Page = () => {
     const [recipient, setRecipient] = useState([]);
     const [loading, setLoading] = useState(false);
     const [signature, setSignature] = useState(null);
+    const [walletClient, setWalletClient] = useState(null);
 
     const approvedTokens = useSelector((state) => state.aikiSend.approvedToken);
     const chainId = useSelector((state) => state.aikiSend.chainId);
@@ -25,11 +26,14 @@ const Page = () => {
 
     const router = useRouter();
 
-    const walletClient = createWalletClient({
-        account,
-        chain: goerli,
-        transport: custom(window.ethereum),
-    });
+    useEffect(() => {
+        const walletClient = createWalletClient({
+            account,
+            chain: goerli,
+            transport: custom(window?.ethereum),
+        });
+        setWalletClient(walletClient);
+    }, []);
 
     async function signTransferData() {
         if (!account) return;
