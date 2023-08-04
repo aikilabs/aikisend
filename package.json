@@ -1,0 +1,42 @@
+{
+    "name": "aikisend",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint",
+        "forge-test": "for /F \"tokens=*\" %A in ('type .env.local') do set %A && cd contracts/ && forge test",
+        "start-localchain": "for /F \"tokens=*\" %A in ('type .env.local') do set %A && cd contracts/ && anvil --chain-id 31337 -f %RPC_URL%"
+    },
+    "dependencies": {
+        "@moralisweb3/common-evm-utils": "^2.22.4",
+        "@rainbow-me/rainbowkit": "^1.0.5",
+        "@reduxjs/toolkit": "^1.9.5",
+        "@walletconnect/web3-provider": "^1.8.0",
+        "@web3modal/ethereum": "^2.6.2",
+        "@web3modal/react": "^2.6.2",
+        "alchemy-sdk": "^2.9.2",
+        "autoprefixer": "10.4.14",
+        "ethers": "^6.6.5",
+        "moralis": "^2.22.4",
+        "next": "13.4.3",
+        "postcss": "8.4.23",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "react-icons": "^4.10.1",
+        "react-redux": "^8.1.1",
+        "react-select": "^5.7.4",
+        "tailwind-scrollbar": "^3.0.4",
+        "tailwindcss": "3.3.2",
+        "viem": "^1.2.12",
+        "wagmi": "^1.3.8",
+        "web3-validator": "^1.0.2",
+        "web3modal": "^1.9.12"
+    },
+    "devDependencies": {
+        "prettier": "^3.0.0",
+        "prettier-plugin-tailwindcss": "^0.4.1"
+    }
+}
