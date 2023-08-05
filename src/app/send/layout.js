@@ -12,6 +12,8 @@ import {
 const Moralis = require("moralis").default;
 const { EvmChain } = require("@moralisweb3/common-evm-utils");
 
+import Footer from "@/components/footer";
+
 const Layout = ({ children }) => {
     const [network, setNetwork] = useState("");
     const { isConnected, address } = useAccount();
@@ -118,6 +120,7 @@ const Layout = ({ children }) => {
                 </div>
             </nav>
             {children}
+            <Footer />
         </main>
     );
 };
