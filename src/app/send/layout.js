@@ -161,7 +161,7 @@ const Layout = ({ children }) => {
                 </div>
             </nav>
             {children}
-            {/* <Footer /> */}
+            <Footer />
         </main>
     );
 };

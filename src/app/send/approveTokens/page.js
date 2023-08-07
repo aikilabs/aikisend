@@ -223,13 +223,13 @@ const Page = () => {
                         )}
                     </div>
                 )}
-                <div className="w-2/3 hidden bg-gray-300 md:grid place-self-center fixed bottom-4">
+                {/* <div className="w-2/3 hidden bg-gray-300 md:grid place-self-center fixed bottom-10">
                     <div
                         className={`h-1 bg-gray-600 w-1/2 bottom-0 transition-all duration-200 ${
                             showApprovePermit2 ? "translate-x-full" : ""
                         }`}
                     ></div>
-                </div>
+                </div> */}
             </section>
             {/* <BottomSig /> */}
         </>

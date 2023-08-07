@@ -131,7 +131,7 @@ const Page = () => {
             <section className="flex flex-col flex-1 h-full overflow-auto">
                 <div className="h-full overflow-auto scrollbar-thin gap-y-4 flex flex-col items-center px-4 py-2 ">
                     <div className="flex relative max-w-2xl 3xl:max-w-3xl flex-col w-full">
-                        <h1 className="text-sm md:text-base">Select Tokens</h1>
+                        <h1 className="text-sm md:text-base">Select Tokens to send</h1>
                         <Select
                             className=" max-w-2xl 3xl:max-w-3xl cursor-pointer w-full rounded"
                             styles={customStyles}
