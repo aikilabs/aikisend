@@ -104,7 +104,7 @@ const InputAddress = ({ token }) => {
     }, [data]);
 
     return (
-        <section className="border-4- py-2 bg-gray-500 text-white mx-4 rounded-2xl">
+        <section className="py-2 bg-gray-500 text-white mx-4 rounded">
             <div
                 className={`gap-x-2 gap-y-3 pb-4 grid md:grid-cols-5 md:justify-end md:items-end px-4 py-2`}
             >
@@ -115,7 +115,7 @@ const InputAddress = ({ token }) => {
                     type="text"
                     id="token-address"
                     onChange={(e) => setAddress(e.target.value)}
-                    className="border-2 px-2 text-black text-xs md:text-sm border-black h-8 md:h-10 flex items-end shadow-neo-brutalism-sm md:col-span-3 rounded py-0.5"
+                    className="px-2 text-black text-xs md:text-sm h-8 md:h-10 flex items-end md:col-span-3 rounded py-0.5"
                     placeholder="Input Receiver address"
                 />
                 <div className="flex items-end gap-4 w-full md:w-auto">
@@ -134,7 +134,7 @@ const InputAddress = ({ token }) => {
                             type="text"
                             onChange={(e) => setAmount(e.target.value)}
                             id="token-amount"
-                            className="border-2 px-2 text-black text-xs md:text-sm font-light border-black rounded shadow-neo-brutalism-sm w-full h-8 md:h-10 py-0.5"
+                            className="px-2 text-black text-xs md:text-sm font-light rounded w-full h-8 md:h-10 py-0.5"
                             placeholder="amount"
                         />
                     </div>
@@ -164,9 +164,9 @@ const InputAddress = ({ token }) => {
                                                         recipient.address
                                                     )
                                                 }
-                                                className="rounded-full border-2 border-white w-4 h-4 flex items-center justify-center"
+                                                className="w-4 h-4 flex items-center justify-center"
                                             >
-                                                <FaMinus className="w-2 h-2 cursor-pointer " />
+                                                <FaMinus className="w-4 h-4 cursor-pointer " />
                                             </div>
                                             <h3 className="text-xs md:text-base break-words">
                                                 {recipient.ensName}

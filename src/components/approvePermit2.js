@@ -42,17 +42,17 @@ const ApprovePermit2 = ({ token, amount }) => {
     return (
         <div
             key={token.token_address}
-            className="flex flex-col h-40 items-start justify-start gap-y-8 border-4 p-4 rounded-2xl border-black max-w-md w-full shadow-neo-brutalism-lg"
+            className="flex flex-col items-start justify-between gap-y-4 p-4 rounded bg-[#898a90] bg-opacity-20 w-full"
         >
-            <h1 className="text-2xl font-semibold">{token.name}</h1>
+            <h1 className="text-center w-full">{token.name}</h1>
 
             <button
                 disabled={isLoading}
                 onClick={() => write?.()}
-                className={`  py-2.5 w-full rounded-lg shadow-neo-brutalism-sm border-[3px]  ${
+                className={`  py-2.5 w-full rounded bg-[#898a90]   ${
                     isLoading
-                        ? "shadow-none text-gray-400 border-gray-400 "
-                        : "bg-gray-500 text-white border-black transition-all duration-100 active:shadow-none active:scale-100 active:translate-x-1 active:translate-y-1"
+                        ? " text-white bg-opacity-10 "
+                        : " text-black bg-opacity-30"
                 }`}
             >
                 {isLoading ? "loading..." : "Approve"}

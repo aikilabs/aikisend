@@ -51,7 +51,7 @@ const SendToken = ({ permitData, transferDetails, address, signature }) => {
     return (
         <button
             disabled={firstLoading || secondLoading}
-            className="sm:text-3xl sm:py-3 sm:px-12 text-lg px-4 py-1 rounded-full bg-gray-200 border-2 border-black active:shadow-none shadow-neo-brutalism-sm"
+            className="sm:text-3xl sm:py-3 sm:px-12 text-lg px-4 py-1 rounded bg-[#898a90] bg-opacity-50"
             onClick={sendTokens}
         >
             {firstLoading || secondLoading ? "Loading..." : "Send Tokens"}

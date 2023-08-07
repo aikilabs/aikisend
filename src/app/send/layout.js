@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useAccount, useNetwork } from "wagmi";
+import { useAccount, useNetwork, useBalance } from "wagmi";
 import { useWeb3Modal } from "@web3modal/react";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -9,14 +9,25 @@ import {
     setAllAvailableTokens,
     setChainId,
 } from "@/redux/aikiSend";
+import Image from "next/image";
+import { SiHiveBlockchain } from "react-icons/si";
+import Loading from "./loading";
+import Footer from "@/components/footer";
 const Moralis = require("moralis").default;
 const { EvmChain } = require("@moralisweb3/common-evm-utils");
 
-import Footer from "@/components/footer";
-
 const Layout = ({ children }) => {
     const [network, setNetwork] = useState("");
+    const [balance, setBalance] = useState(0);
+    const [balanceSymbol, setBalanceSymbol] = useState("");
     const { isConnected, address } = useAccount();
+    const {
+        data: balanceData,
+        isError,
+        isLoading,
+    } = useBalance({
+        address,
+    });
     const dispatch = useDispatch();
     const walletConnected = useSelector(
         (state) => state.aikiSend.walletConnected
@@ -87,42 +98,73 @@ const Layout = ({ children }) => {
     useEffect(() => {
         dispatch(changeWalletConnectionState(isConnected));
         dispatch(addUserAddress(address || ""));
+        if (balanceData) {
+            setBalance(balanceData.formatted);
+            setBalanceSymbol(balanceData.symbol);
+        }
         if (address) {
             setTokens();
         }
-    }, [isConnected, network]);
+    }, [isConnected, network, address, balanceData]);
 
     const { open, close } = useWeb3Modal();
 
+    //   if (isLoading || !isConnected) {
+    //     return <Loading />;
+    //   }
+
     return (
         <main className="flex h-full flex-col">
-            <nav className="md:px-24 px-4 pt-8 pb-2 flex justify-between items-center">
-                <h1 className="font-extrabold text-lg md:text-3xl">AIKISEND</h1>
+            <nav className="flex items-center justify-between  px-4 py-4 sm:px-8 ">
+                {/* <h1 className="text-lg font-extrabold md:text-3xl">AIKISEND</h1> */}
+                <Image
+                    src={"/logo.svg"}
+                    className="w-28 sm:w-36 md:ml-24"
+                    width={152}
+                    height={33.7}
+                />
                 <div className="flex items-center gap-x-4">
-                    <h2 className="text-sm md:text-lg font-normal italic text-blue-500">
-                        {network ? `${network} Network` : ""}
-                    </h2>
+                    {network && (
+                        <div className="hidden items-center gap-x-2 rounded border border-black px-4 py-1.5 text-sm font-normal text-black sm:flex ">
+                            {network ? `${network} Network` : ""}
+                            <SiHiveBlockchain className="inline-block h-5 w-5 text-yellow-200" />
+                        </div>
+                    )}
                     <button
                         onClick={() => open()}
-                        className={` text-sm md:text-lg  shadow-neo-brutalism-sm border-[3px] border-black px-2 py-0.5 md:px-3 md:py-1 rounded-lg transition-all duration-100 active:shadow-none active:scale-100 active:translate-x-1 active:translate-y-1 ${
+                        className={` flex items-center gap-x-2 rounded border px-2 py-1.5 text-xs font-semibold text-black transition-all duration-100  sm:text-sm md:px-4   ${
                             walletConnected
-                                ? "text-black font-extrabold font-sans tracking-[0.3em]"
-                                : "bg-blue-500 text-white  font-semibold tracking-[0.1em] "
+                                ? " border-black font-sans"
+                                : "border-blue-500 bg-blue-500 text-black"
                         }`}
                     >
-                        {walletConnected
-                            ? address &&
-                              address
-                                  .substring(0, 4)
-                                  .concat(`...${address.slice(-4)}`)
-                            : "Connect Wallet"}
+                        {walletConnected ? (
+                            <>
+                                <span>
+                                    {Number(balance).toFixed(3)}
+                                    {balanceSymbol}
+                                </span>
+                                <span
+                                    className={`rounded ${
+                                        walletConnected && "bg-gray-300 px-1"
+                                    }`}
+                                >
+                                    {address
+                                        .substring(0, 4)
+                                        .concat(`...${address.slice(-4)}`)}
+                                </span>
+                            </>
+                        ) : (
+                            "Connect Wallet"
+                        )}
                     </button>
                 </div>
             </nav>
             {children}
-            <Footer />
+            {/* <Footer /> */}
         </main>
     );
 };
 
 export default Layout;
+

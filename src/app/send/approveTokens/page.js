@@ -1,9 +1,9 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import BottomSig from "@/utils/bottomSig";
 import Link from "next/link";
-import { HiArrowLongLeft } from "react-icons/hi2";
+import { HiArrowLeft } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
 import { useContractReads } from "wagmi";
 import { abi } from "@/abi/abi";
@@ -12,6 +12,8 @@ import ApprovePermit2 from "@/components/approvePermit2";
 // import ApprovedToken from "@/components/approvedToken";
 
 const Page = () => {
+    const [showApprovePermit2, setShowApprovePermit2] = useState(false);
+
     const address = useSelector((state) => state.aikiSend.address);
     const chainId = useSelector((state) => state.aikiSend.chainId);
     const selectedToken = useSelector((state) => state.aikiSend.selectedToken);
@@ -68,9 +70,9 @@ const Page = () => {
     };
 
     useEffect(() => {
-        if (selectedToken.length === 0) {
-            return router.push("/send/selectTokens");
-        }
+        // if (selectedToken.length === 0) {
+        //     return router.push("/send/selectTokens");
+        // }
         // set allowance of selected token to match there index in data of allowance
         // const newSelectedToken = selectedToken.map((token, index) => {
         //     // if (!allowanceData[index]) {
@@ -96,115 +98,140 @@ const Page = () => {
 
     return (
         <>
-            <section className="flex flex-col flex-1 h-full overflow-auto px-4">
-                <div className="flex-1 h-full lg:gap-y-4 flex flex-col overflow-auto">
-                    <div>
-                        <div className="flex relative text-center flex-col  w-full">
-                            <h1 className="sm:text-2xl font-semibold">
-                                Set approval for PERMIT2
-                            </h1>
-                            <p className="sm:text-sm text-xs text-gray-500">
-                                You are approving PERMIT2 to spend your tokens
-                                {` `}
-                                <Link
-                                    className="underline font-light text-pink-500"
-                                    href="https://github.com/Uniswap/permit2"
-                                    target="_blank"
-                                >
-                                    UNISWAP PERMIT2
-                                </Link>
-                            </p>
-                            <p className="sm:text-sm text-xs text-gray-500">
-                                You can also revoke approval here
-                                {` `}
-                                <Link
-                                    className="underline font-bold text-black"
-                                    href="http://revoke.cash"
-                                    target="_blank"
-                                >
-                                    revoke.cash
-                                </Link>
-                            </p>
-                        </div>
-                    </div>
-                    <div className="flex-1 flex-col flex lg:flex-row justify-start items-start lg:px-20 gap-6 lg:gap-12 overflow-auto px-4">
-                        <button
-                            onClick={() => router.push("/send/selectTokens")}
-                            className="w-16 h-16 mt-4 transition-all duration-100  flex active:shadow-none active:scale-100 active:translate-x-1 active:translate-y-1 justify-center items-center rounded-full shadow-neo-brutalism-xs sm:shadow-neo-brutalism-sm border-2 sm:border-[3px] border-black"
-                        >
-                            <HiArrowLongLeft className="transition-all duration-100 w-16 h-16 -top-[140%] -right-10" />
-                        </button>
-                        <div className="h-full overflow-auto flex flex-col w-full flex-1 gap-y-4">
-                            <h2 className="underline font-bold text-center text-2xl">
-                                Unapproved Tokens
-                            </h2>
-                            <div className="lg:flex-1 min-h-[6rem] h-full max-h-min w-full flex flex-col border-4 rounded-xl space-y-12 lg:space-y-0 lg:grid 3xl:grid-cols-3 xl:grid-cols-2 items-center xl:items-start lg:gap-12 overflow-auto  px-4 lg:px-6 lg:py-10 py-6 scrollbar-thin shadow-inner-2">
-                                {selectedToken.map((token, index) => {
-                                    const totalAmountToSend =
-                                        token.recipient.reduce(
-                                            (acc, recipient) =>
-                                                acc + recipient.amount,
-                                            0
-                                        );
-                                    if (!token.approved) {
-                                        return (
-                                            <ApprovePermit2
-                                                key={token.token_address}
-                                                token={token}
-                                                amount={totalAmountToSend}
-                                            />
-                                        );
-                                    }
-                                })}
-                                {
-                                    // if no approved token display "no approved token"
-                                    selectedToken.filter(
-                                        (token) => !token.approved
-
-                                        // token.approved
-                                    ).length === 0 && (
-                                        <h3 className="text-center text-gray-500 italic font-light w-full flex-1 text-xl 3xl:col-span-3 xl:col-span-2">
-                                            You've approved all tokens
-                                        </h3>
-                                    )
-                                }
-                            </div>
-                        </div>
-                        <div className="scrollbar-thin lg:w-64 min-h-[6rem] w-full max-h-[16rem] lg:h-64 border-4 border-black md:p-4 p-1 rounded-xl overflow-auto sm:shadow-neo-brutalism-lg">
-                            <h2 className="underline font-semibold text-center text-lg">
-                                Approved Tokens
-                            </h2>
-                            {selectedToken.map((token, index) => {
-                                const totalAmountToSend =
-                                    token.recipient.reduce(
-                                        (acc, recipient) =>
-                                            acc + recipient.amount,
-                                        0
-                                    );
-                                if (token.approved) {
-                                    return (
-                                        <h3
-                                            key={token.token_address}
-                                            className=""
-                                        >
-                                            {token.name}
-                                        </h3>
-                                    );
-                                }
-                            })}
-                        </div>
-                    </div>
-                    <div className="w-full flex justify-end px-8 my-4">
-                        <button
-                            onClick={proceedClick}
-                            className="md:px-8 md:py-2.5 py-1 px-4 text-sm rounded-lg shadow-neo-brutalism-sm border-2 md:border-[3px] bg-gray-500 text-white border-black transition-all duration-100  active:shadow-none active:scale-100 active:translate-x-1 active:translate-y-1"
-                        >
-                            Proceed
-                        </button>
+            <section className="flex flex-col flex-1 gap-y-6 p-4 h-full scrollbar-thin overflow-auto text-black ">
+                <div className="flex">
+                    <button
+                        onClick={() => router.push("/send/selectTokens")}
+                        className="transition-all duration-100 "
+                    >
+                        <HiArrowLeft className="transition-all duration-100 w-6 h-6" />
+                    </button>
+                    <div className="flex relative gap-1 text-center flex-col flex-1 w-full">
+                        <h1 className="sm:text-2xl font-normal">
+                            Set approval for PERMIT2
+                        </h1>
+                        <p className="sm:text-sm text-xs ">
+                            You are approving PERMIT2 to spend your tokens
+                            {` `}
+                            <Link
+                                className="underline font-light text-pink-500"
+                                href="https://github.com/Uniswap/permit2"
+                                target="_blank"
+                            >
+                                UNISWAP PERMIT2
+                            </Link>
+                        </p>
+                        <p className="sm:text-sm text-xs ">
+                            You can also revoke approval here
+                            {` `}
+                            <Link
+                                className="underline font-bold "
+                                href="http://revoke.cash"
+                                target="_blank"
+                            >
+                                revoke.cash
+                            </Link>
+                        </p>
                     </div>
                 </div>
+                <div className="flex justify-end">
+                    <button
+                        onClick={proceedClick}
+                        className="sm:px-10 px-4 py-1.5 text-xs sm:text-base rounded bg-[#898a90] bg-opacity-50   transition-all duration-100"
+                    >
+                        Proceed
+                    </button>
+                </div>
+                <div className="flex text-sm md:text-base items-center mb-4 justify-center">
+                    <div className="flex gap-x-3 md:gap-x-6 relative px-2 md:px-4 justify-center">
+                        <button
+                            className={`px-2`}
+                            onClick={() => setShowApprovePermit2(false)}
+                        >
+                            Unapproved Tokens
+                        </button>
+                        <button
+                            className={`px-2`}
+                            onClick={() => setShowApprovePermit2(true)}
+                        >
+                            Approved Tokens
+                        </button>
+                        <div className="absolute w-full bottom-0 bg-gray-300">
+                            <div
+                                className={`h-0.5 bg-yellow-200 w-1/2 bottom-0 transition-all duration-200 ${
+                                    showApprovePermit2 ? "translate-x-full" : ""
+                                }`}
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+                {!showApprovePermit2 && (
+                    <div className="grid sm:grid-cols-2 md:grid-cols-4 w-full gap-y-6 gap-x-6 max-w-6xl place-self-center mb-8">
+                        {selectedToken.map((token, index) => {
+                            const totalAmountToSend = token.recipient.reduce(
+                                (acc, recipient) => acc + recipient.amount,
+                                0
+                            );
+                            if (!token.approved) {
+                                return (
+                                    <ApprovePermit2
+                                        key={token.token_address}
+                                        token={token}
+                                        amount={totalAmountToSend}
+                                    />
+                                );
+                            }
+                        })}{" "}
+                        {
+                            // if no approved token display "no approved token"
+                            selectedToken.filter(
+                                (token) => !token.approved
+
+                                // token.approved
+                            ).length === 0 && (
+                                <h3 className="text-center w-full flex-1 text-xl 3xl:col-span-3 sm:col-span-2 md:col-span-4 text-gray-600">
+                                    No Unapproved Token
+                                </h3>
+                            )
+                        }
+                    </div>
+                )}
+                {showApprovePermit2 && (
+                    <div className="grid sm:grid-cols-2 md:grid-cols-4 w-full gap-y-6 gap-x-6 max-w-6xl place-self-center pb-8">
+                        {selectedToken.map((token, index) => {
+                            const totalAmountToSend = token.recipient.reduce(
+                                (acc, recipient) => acc + recipient.amount,
+                                0
+                            );
+                            if (token.approved) {
+                                return (
+                                    <h3
+                                        key={token.token_address}
+                                        className="bg-[#898a90] bg-opacity-20 p-4 rounded text-center "
+                                    >
+                                        {token.name}
+                                    </h3>
+                                );
+                            }
+                        })}
+
+                        {selectedToken.filter((token) => token.approved)
+                            .length === 0 && (
+                            <h3 className="text-center w-full flex-1 text-xl 3xl:col-span-3 sm:col-span-2 md:col-span-4 text-gray-600">
+                                No Approved Token
+                            </h3>
+                        )}
+                    </div>
+                )}
+                <div className="w-2/3 hidden bg-gray-300 md:grid place-self-center fixed bottom-4">
+                    <div
+                        className={`h-1 bg-gray-600 w-1/2 bottom-0 transition-all duration-200 ${
+                            showApprovePermit2 ? "translate-x-full" : ""
+                        }`}
+                    ></div>
+                </div>
             </section>
-            <BottomSig />
+            {/* <BottomSig /> */}
         </>
     );
 };

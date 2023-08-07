@@ -7,7 +7,7 @@ import { createWalletClient, custom } from "viem";
 import { goerli } from "viem/chains";
 import { useRouter } from "next/navigation";
 import Loading from "../loading";
-import { HiArrowLongLeft, HiArrowLongRight } from "react-icons/hi2";
+import { HiArrowLeft, HiArrowLongRight } from "react-icons/hi2";
 import SendToken from "@/components/sendToken";
 import { getRandomNonce, MAX_UINT256 } from "../helpers";
 
@@ -112,18 +112,18 @@ const Page = () => {
 
     return (
         <>
-            <section className="flex flex-col flex-1 h-full overflow-auto lg:px-24 xl:px-52 px-8 gap-y-8 pb-4 ">
+            <section className="flex flex-col h-full scrollbar-thin overflow-auto p-4 gap-y-8 justify-center items-center ">
                 <button
                     onClick={() => router.push("/send/approveTokens")}
-                    className="sm:w-16 sm:h-16 w-10 h-10 mt-4 transition-all duration-100  flex active:shadow-none active:scale-100 active:translate-x-1 active:translate-y-1 justify-center items-center rounded-full shadow-neo-brutalism-sm border-2 sm:border-[3px] border-black"
+                    className=" transition-all duration-100 flex justify-start items-start rounded-full w-full"
                 >
-                    <HiArrowLongLeft className="transition-all duration-100 w-16 h-16 -top-[140%] -right-10" />
+                    <HiArrowLeft className="transition-all duration-100 w-8 h-8 -top-[140%] -right-10" />
                 </button>
 
-                <div className="overflow-x-auto relative rounded-lg scrollbar-thin border-4 border-black shadow-neo-brutalism-lg h-full">
-                    <table className="min-w-full divide-y-2 divide-primary text-sm ">
+                <div className="overflow-auto relative rounded scrollbar-thin border-2 border-[#898a90] h-full max-w-6xl w-full">
+                    <table className="min-w-full divide-y-2 divide-[#898a90] text-sm ">
                         <thead className="ltr:text-left rtl:text-right">
-                            <tr className="bg-primary bg-opacity-25 font-semibold text-xl xl:text-2xl">
+                            <tr className="bg-[#898a90] bg-opacity-25 font-semibold text-xl xl:text-2xl">
                                 <th className="whitespace-nowrap px-4 py-3 text-text">
                                     Amount
                                 </th>
@@ -154,16 +154,17 @@ const Page = () => {
                                     </td>
                                 </tr>
                             ))}
+                            
                         </tbody>
                     </table>
                 </div>
                 <div className="w-full flex items-center justify-end pr-8">
                     {!Boolean(signature) ? (
                         <button
-                            className="sm:text-3xl sm:py-3 sm:px-12 text-lg px-4 py-1 rounded-full bg-gray-200 border-2 border-black active:shadow-none shadow-neo-brutalism-sm"
+                            className="sm:text-3xl sm:py-3 sm:px-12 text-lg px-4 py-1 rounded bg-[#898a90] bg-opacity-50"
                             onClick={signTransferData}
                         >
-                            Sign Data...
+                            Sign Data
                         </button>
                     ) : (
                         <SendToken
@@ -175,7 +176,7 @@ const Page = () => {
                     )}
                 </div>
             </section>
-            <BottomSig />
+            {/* <BottomSig /> */}
         </>
     );
 };

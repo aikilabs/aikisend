@@ -33,7 +33,6 @@ import store from "../redux/store";
 import { Provider } from "react-redux";
 const Moralis = require("moralis").default;
 
-
 const { chains, publicClient } = configureChains(
     [
         arbitrum,
@@ -96,7 +95,7 @@ export default function RootLayout({ children }) {
                 lang="en"
                 className="h-full h-screen scrollbar-thin scrollbar-thumb-gray-500"
             >
-                <body className=" font-farro bg-[#FBFBFB] h-full">
+                <body className=" font-farro h-full">
                     <WagmiConfig config={wagmiConfig}>{children}</WagmiConfig>
                     <Web3Modal
                         projectId={

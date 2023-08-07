@@ -129,11 +129,11 @@ const Page = () => {
     return (
         <>
             <section className="flex flex-col flex-1 h-full overflow-auto">
-                <div className="h-full overflow-auto gap-y-12 flex flex-col items-center px-6 py-2 ">
+                <div className="h-full overflow-auto scrollbar-thin gap-y-4 flex flex-col items-center px-4 py-2 ">
                     <div className="flex relative max-w-2xl 3xl:max-w-3xl flex-col w-full">
                         <h1 className="text-sm md:text-base">Select Tokens</h1>
                         <Select
-                            className=" max-w-2xl 3xl:max-w-3xl cursor-pointer w-full shadow-neo-brutalism-sm rounded"
+                            className=" max-w-2xl 3xl:max-w-3xl cursor-pointer w-full rounded"
                             styles={customStyles}
                             classNamePrefix="select token"
                             closeMenuOnSelect={false}
@@ -150,28 +150,27 @@ const Page = () => {
                             }}
                         />
                     </div>
-                    <div className="h-full border-4 scrollbar-thin overflow-auto flex flex-col gap-y-4 py-4 border-black max-w-4xl 3xl:max-w-5xl w-full rounded-xl shadow-neo-brutalism-lg">
+                    <div className="flex justify-end w-full">
+                        <button
+                            onClick={() => router.push("/send/approveTokens")}
+                            disabled={nextButton}
+                            className={`sm:px-10 px-4 py-1.5 text-xs sm:text-base rounded bg-[#898a90]  transition-all duration-100 ${
+                                nextButton
+                                    ? "text-white bg-opacity-20"
+                                    : "text-black cursor-pointer bg-opacity-50"
+                            }`}
+                        >
+                            Next
+                        </button>
+                    </div>
+                    <div className=" flex flex-col gap-y-6 mb-8 border-black max-w-4xl 3xl:max-w-5xl w-full ">
                         {selectedToken.map((token, index) => {
                             return <InputAddress token={token} key={index} />;
                         })}
                     </div>
-                    <div className="w-full max-w-3xl 3xl:max-w-4xl grid place-content-end">
-                        <button
-                            onClick={() => router.push("/send/approveTokens")}
-                            disabled={nextButton}
-                            className={`relative text-3xl italic  transition-all duration-200 ${
-                                nextButton
-                                    ? "text-gray-400"
-                                    : "text-black cursor-pointer hover:translate-x-4"
-                            }`}
-                        >
-                            NEXT
-                            {/* <HiArrowLongRight className="" /> */}
-                        </button>
-                    </div>
                 </div>
             </section>
-            <BottomSig />
+            {/* <BottomSig /> */}
         </>
     );
 };
