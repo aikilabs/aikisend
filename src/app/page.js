@@ -90,24 +90,24 @@ const page = () => {
                         multiple tokens to multiple addresses in a single
                         transaction.
                     </h2>
-                    <p className="text-[0.55rem] max-w-md text-gray-500">
-                        Aikisend helps you send multiple tokens to multiple
-                        addresses in one transaction, unlike other multisender
-                        that only support sending one token to multiple
-                        addresses
+                    <p className="text-[0.6rem] max-w-md text-gray-500">
+                        AikiSend is a Next Gen multi-token sender application,
+                        built on the industry standard Permit2 contract from
+                        Uniswap, and also has supports ENS domains.
                     </p>
                 </article>
-                <section className="flex flex-col md:flex-row justify-center gap-x-16">
+                <section className="flex flex-col md:flex-row justify-center  gap-x-16">
                     <div className="gap-y-2 flex flex-col relative">
                         <div className=" w-full absolute top-0 left-0 bg-gray-400">
-                            <div className="w-1/2 bg-yellow-500 h-[1px]"></div>
+                            <div className="w-1/3 bg-yellow-500 h-[1px]"></div>
                         </div>
-                        <h3 className="pt-4">Easy Token Allocation</h3>
+                        <h3 className="pt-4">Batched multi-tokens transfers</h3>
                         <p className="max-w-xs text-xs">
-                            With the use of uniswap permit2, you can easily
-                            allocate tokens to multiple addresses saving you
-                            alot of time and stress in the process of sending
-                            tokens to multiple addresses.
+                            Unlike other multisender application that only
+                            allows transfer of one token to multiple addresses,
+                            with AikiSend you can transfer multiple tokens say
+                            (Dai, Uni, USDC) to multiple addresses all in one
+                            transaction.
                         </p>
                     </div>
                     <div>
@@ -119,13 +119,79 @@ const page = () => {
                         />
                     </div>
                 </section>
-                <section className="flex flex-col items-center justify-center text-center">
+                <section className="flex flex-col md:flex-row justify-start gap-x-16">
+                    <div className="gap-y-2 flex flex-col relative">
+                        <div className=" w-full absolute top-0 left-0 bg-gray-400">
+                            <div className="w-1/3 translate-x-full bg-yellow-500 h-[1px]"></div>
+                        </div>
+                        <h3 className="pt-4">ENS domains support</h3>
+                        <p className="max-w-xs text-xs">
+                            Aikisend has integrated ENS to allow for token
+                            transfers to valid ENS names, hence improving the
+                            User Experience
+                        </p>
+                    </div>
+                    <div>
+                        <Image
+                            src={"/ens.svg"}
+                            className="w-48 hidden md:block border-t rounded-2xl border-yellow-500 pt-4"
+                            width={252}
+                            height={252}
+                        />
+                    </div>
+                </section>
+                <section className="flex flex-col md:flex-row justify-end gap-x-16">
+                    <div className="gap-y-2 flex flex-col relative">
+                        <div className=" w-full absolute top-0 left-0 bg-gray-400 overflow-hidden">
+                            <div className="w-2/3 translate-x-full bg-yellow-500 h-[1px]"></div>
+                        </div>
+                        <h3 className="pt-4">Multi-Chain</h3>
+                        <p className="max-w-xs text-xs">
+                            AikiSend works out of the box on many EVM chains
+                            with Permit2 deployment.
+                        </p>
+                    </div>
+                    <div>
+                        <Image
+                            src={"/multichain.svg"}
+                            className="w-48 hidden md:block border-t rounded-2xl border-yellow-500 pt-4"
+                            width={252}
+                            height={252}
+                        />
+                    </div>
+                </section>
+                <section>
+                    <h2 class="mb-2 text-xl font-semibold text-yellow-500">
+                        How It Works:
+                    </h2>
+                    <ul class=" space-y-1 md:text-lg text-gray-300 list-disc list-inside ">
+                        <li>
+                            On landing on the homepage, a user connect their
+                            wallet account.
+                        </li>
+                        <li>
+                            The list of tokens in the connected wallet can be
+                            inputted using the search box.
+                        </li>
+                        <li>
+                            Approve Permit2 contract to spend tokens. Note: If
+                            Permit2 has been approved previously, this step is
+                            skipped.
+                        </li>
+                        <li>Sign the Signature data for the transfer.</li>
+                        <li>
+                            Proceed to make the transfer, all in one
+                            transaction🎉.
+                        </li>
+                    </ul>
+                </section>
+                <section className="flex flex-col items-center text-center">
                     {/* <h2 className="text-xl text-yellow-500">Tools Used</h2> */}
                     <div className="flex gap-x-8">
                         {tools.map((tool) => (
                             <Image
                                 src={tool}
-                                className="w-16 md:w-24 text-white"
+                                className="w-16 text-white"
                                 width={32}
                                 height={32}
                             />
@@ -133,7 +199,7 @@ const page = () => {
                     </div>
                 </section>
                 <section className="flex flex-col text-center gap-y-8 justify-center items-center ">
-                    <h2 className="text-xl text-yellow-500">
+                    <h2 className="text-xl font-semibold text-yellow-500">
                         Supported Networks
                     </h2>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-y-12 gap-x-8 md:gap-x-20 max-w-4xl">
@@ -150,27 +216,34 @@ const page = () => {
                         ))}
                     </div>
                 </section>
-                <footer className="flex items-center text-xs sm:text-sm md:text-base justify-center gap-6 md:justify-between px-4 py-4 sm:px-8 border-t border-gray-300">
-                    <Image
-                        src={"/logoHalf.svg"}
-                        className="w-6 md:w-8 "
-                        width={36.7}
-                        height={32.7}
-                    />
-                    <div className="flex flex-col md:flex-row items-center sm:gap-4 justify-between ">
-                        <p>Donate to this project🙂</p>
-                        <p>
-                            <a
-                                className="cursor-pointer"
-                                href="https://etherscan.io/address/0x2e2316088c015F4BF27D86A1458A707af536A324"
-                            >
-                                <u>
-                                    0x2e2316088c015F4BF27D86A1458A707af536A324
-                                </u>
-                            </a>
-                        </p>
-                    </div>
-                </footer>
+                <section className="space-y-2 ">
+                    <p className="text-sm text-center">
+                        AikiSend is free and open to public use, however we
+                        appreciate donations from the broader community to
+                        continually improve the application and keep it live.
+                    </p>
+                    <footer className="flex items-center text-xs sm:text-sm md:text-base justify-center gap-6 md:justify-between px-4 py-4 sm:px-8 border-t border-gray-300">
+                        <Image
+                            src={"/logoHalf.svg"}
+                            className="w-6 md:w-8 "
+                            width={36.7}
+                            height={32.7}
+                        />
+                        <div className="flex flex-col md:flex-row items-center sm:gap-4 justify-between ">
+                            <p>Donate to this project🙂</p>
+                            <p>
+                                <a
+                                    className="cursor-pointer"
+                                    href="https://etherscan.io/address/0x2e2316088c015F4BF27D86A1458A707af536A324"
+                                >
+                                    <u>
+                                        0x2e2316088c015F4BF27D86A1458A707af536A324
+                                    </u>
+                                </a>
+                            </p>
+                        </div>
+                    </footer>
+                </section>
             </main>
         </div>
     );
