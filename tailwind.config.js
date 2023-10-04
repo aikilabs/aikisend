@@ -6,8 +6,15 @@ module.exports = {
         "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
         "./src/**/*.{js,ts,jsx,tsx,mdx}",
     ],
+    darkMode: "class", // enable dark mode
+
     theme: {
         extend: {
+            colors: {
+                "primary-light": "#F5F5F5",
+                "primary-dark": "#232B2B",
+                accent: "#D07A25",
+            },
             backgroundImage: {
                 "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
                 "gradient-conic":
@@ -16,8 +23,10 @@ module.exports = {
             fontFamily: {
                 mono: ["Victor Mono", "monospace"],
                 farro: ["Farro", "sans-serif"],
+                "space-mono": ["Space Mono", "monospace"],
             },
             boxShadow: {
+                "home-shadow": "-4px 4px 0px 0px #D07A25",
                 "neo-brutalism-xs": "2px 2px 0px black",
                 "neo-brutalism-sm": "5px 5px 0px black",
                 "neo-brutalism-lg": "12px 12px 0px black",
