@@ -21,11 +21,10 @@ const DarkModeToggle = () => {
     }, []);
 
     return (
-        <div
-            onClick={() => setDarkMode((prevDarkMode) => !prevDarkMode)}
-            className="fixed top-5 right-10 w-10 h-10 flex items-center justify-center cursor-pointer"
-        >
-            <AnimatePresence>
+            <div
+                onClick={() => setDarkMode((prevDarkMode) => !prevDarkMode)}
+                className="fixed z-[100] top-10 right-10 w-10 h-10 flex items-center justify-center cursor-pointer"
+            >
                 {!darkMode ? (
                     <>
                         <Image
@@ -61,8 +60,7 @@ const DarkModeToggle = () => {
                         />
                     </>
                 )}
-            </AnimatePresence>
-        </div>
+            </div>
     );
 };
 

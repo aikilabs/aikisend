@@ -27,16 +27,16 @@ const CustomCursorInDiv = ({ children, mouseText = "" }) => {
             ref={ref}
             onMouseMove={mouseMove}
             onMouseLeave={mouseLeave}
-            className="relative flex items-center transition-colors duration-500 font-space-mono text-primary-dark dark:text-primary-light justify-center overflow-hidden dark:bg-primary-dark bg-primary-light "
+            className="relative flex flex-col items-center transition-colors duration-500 font-space-mono text-primary-dark dark:text-primary-light justify-center overflow-hidden dark:bg-primary-dark bg-primary-light scrollbar-none"
         >
             <motion.div
                 onClick
-                className="absolute pointer-events-none z-50 flex h-2 w-2 items-center justify-center rounded-full bg-accent mix-blend-difference text-white"
+                className="fixed pointer-events-none z-50 flex h-2 w-2 items-center justify-center rounded-full bg-accent mix-blend-difference text-white"
                 animate={{ x: position.x, y: position.y, opacity }}
                 transition={{ type: "tween", ease: "backOut" }}
             ></motion.div>
             <motion.div
-                className="absolute pointer-events-none z-50 flex h-8 w-8 items-center justify-center rounded-full border-accent border mix-blend-difference text-white"
+                className="fixed pointer-events-none z-50 flex h-8 w-8 items-center justify-center rounded-full border-accent border mix-blend-difference text-white"
                 animate={{ x: position.x, y: position.y, opacity }}
                 transition={{ type: "tween", ease: "backOut", duration: 0.5 }}
             ></motion.div>

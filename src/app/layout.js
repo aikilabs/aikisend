@@ -93,7 +93,7 @@ export default function RootLayout({ children }) {
         <Provider store={store}>
             <html
                 lang="en"
-                className="h-full h-screen scrollbar-thin scrollbar-thumb-gray-500"
+                className="h-full scrollbar-thin scrollbar-thumb-gray-500"
             >
                 <body className=" font-farro h-full">
                     <WagmiConfig config={wagmiConfig}>{children}</WagmiConfig>
