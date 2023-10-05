@@ -5,7 +5,7 @@ const Logo = () => {
     return (
         <>
             {" "}
-            <div className="fixed md:hidden top-1/2 overflow-hidden left-1/2  w-[30rem] h-[32rem] flex">
+            <div className="absolute md:hidden top-1/2 overflow-hidden left-1/2  w-[30rem] h-[32rem] flex">
                 <div className="logoMask bg-accent absolute inset-0 z-10 h-full w-full bg-opacity-50"></div>
                 <div className="logoMask dark:bg-primary-light bg-primary-dark absolute inset-0 top-[3.75rem] h-full w-full bg-opacity-50"></div>
             </div>{" "}

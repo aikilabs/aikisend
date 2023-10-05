@@ -8,7 +8,9 @@ const Features = () => {
   const x = useTransform(scrollYProgress, [0, 1], ["50%", "-130%"]);
   return (
     <section className="z-10 h-[310dvh] w-full sm:h-[315dvh] lg:h-[340dvh] ">
-      <div className="flex h-[10vh] items-center overflow-hidden sm:h-[15vh] md:h-[30vh] ">
+      <div
+        className="flex h-[10vh] items-center overflow-hidden bg-primary-light dark:bg-primary-dark sm:h-[15vh] md:h-[30vh]"
+      >
         {" "}
         <motion.h1
           style={{ x }}

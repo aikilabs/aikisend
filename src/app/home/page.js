@@ -6,6 +6,7 @@ import DarkModeToggle from "./smaller-components/darkModeToggle";
 import Features from "./components/features";
 import Lenis from "@studio-freight/lenis";
 import Process from "./components/process";
+import Footer from "./components/footer";
 
 export default function Home() {
   const lenis = new Lenis();
@@ -26,6 +27,7 @@ export default function Home() {
       <Hero />
       <Features />
       <Process />
+      <Footer />
     </CustomCursorInDiv>
   );
 }
