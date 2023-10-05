@@ -13,15 +13,15 @@ const Hero = () => {
     }, []);
 
     // Calculate initial values for y1 and y2 based on the scroll position
-    const initialY1 = -screenHeight /6;
-    const initialY2 = -screenHeight /4;
+    const initialY1 = screenHeight /4;
+    const initialY2 = screenHeight /2;
 
     // Use useTransform with initial values
     const y1 = useTransform(scrollY, [0, screenHeight], [0, initialY1]);
     const y2 = useTransform(scrollY, [0, screenHeight], [0, initialY2]);
 
     return (
-        <section className="h-[100dvh] w-full overflow-hidden py-10 px-10 flex relative flex-col xl:flex-row">
+        <section className="h-[100dvh] w-full overflow-hidden py-10 px-10 flex relative flex-col xl:flex-row ">
             <motion.article
                 style={{ translateY: y1 }}
                 className="flex flex-col z-10 h-full items-center md:justify-start md:items-start justify-center text-center md:text-left"

@@ -12,3 +12,10 @@
   mask-position: 50%;
   mask-size: 100%;
 }
+
+.logoMultiChainFeature {
+  mask-image: url("/multiChainFeature.svg");
+  mask-repeat: no-repeat;
+  mask-position: 50%;
+  mask-size: 100%;
+}
