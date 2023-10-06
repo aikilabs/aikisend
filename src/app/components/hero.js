@@ -53,19 +53,19 @@ xl:flex-row "
         className="z-10 hidden h-full w-full flex-col justify-end gap-5 pl-10 md:flex xl:gap-10 xl:pl-0"
       >
         <article className="  flex w-full justify-end ">
-          <p className="max-w-[25rem] md:max-w-[35rem] rounded-lg md:text-xs  border border-primary-light bg-primary-dark p-4 text-[0.6rem] text-primary-light dark:border-primary-dark dark:bg-primary-light dark:text-primary-dark xl:py-2 xl:max-w-[45rem] xl:text-base">
+          <p className="max-w-[25rem] md:max-w-[35rem] rounded-lg md:text-xs  border border-primary-light bg-primary-dark p-4 text-[0.6rem] text-primary-light dark:border-primary-dark dark:bg-primary-light dark:text-primary-dark xl:py-2 xl:max-w-[45rem] 2xl:text-base">
             In the ever-evolving landscape of blockchain and cryptocurrency,
             efficiency, convenience, and innovation are paramount.
           </p>
         </article>
         <article className="flex w-full justify-end  ">
-          <p className="max-w-[15rem] md:max-w-[25rem] rounded-lg md:text-xs  border border-primary-light bg-primary-dark p-4 text-[0.6rem] text-primary-light dark:border-primary-dark dark:bg-primary-light dark:text-primary-dark xl:py-2 xl:max-w-[35rem] xl:text-base">
+          <p className="max-w-[15rem] md:max-w-[25rem] rounded-lg md:text-xs  border border-primary-light bg-primary-dark p-4 text-[0.6rem] text-primary-light dark:border-primary-dark dark:bg-primary-light dark:text-primary-dark xl:py-2 xl:max-w-[35rem] 2xl:text-base">
             Aikisend is a groundbreaking solution that re-imagines the way
             digital assets are transferred.
           </p>
         </article>
         <article className="  flex w-full justify-end">
-          <p className="max-w-[30rem] md:max-w-[40rem] rounded-lg md:text-xs  border border-primary-light bg-primary-dark p-4 text-[0.6rem] text-primary-light dark:border-primary-dark dark:bg-primary-light dark:text-primary-dark xl:py-2 xl:max-w-[50rem] xl:text-base">
+          <p className="max-w-[30rem] md:max-w-[40rem] rounded-lg md:text-xs  border border-primary-light bg-primary-dark p-4 text-[0.6rem] text-primary-light dark:border-primary-dark dark:bg-primary-light dark:text-primary-dark xl:py-2 xl:max-w-[50rem] 2xl:text-base">
             It provides an unprecedented level of flexibility and simplicity to
             users seeking to send multiple tokens to multiple addresses in a
             single transaction.

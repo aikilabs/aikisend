@@ -10,7 +10,7 @@ const Footer = () => {
         <InfiniteTextMove direction={1} word={`AIKISEND·`} />
       </div>
       <div className="z-10 flex flex-1 flex-col items-center justify-center gap-10 text-white">
-        <h1 className="text-lg font-bold sm:text-xl md:text-3xl lg:text-5xl 3xl:text-8xl">
+        <h1 className="text-2xl px-5 break-all text-center font-bold sm:text-3xl md:text-5xl lg:text-6xl 3xl:text-8xl">
           0x2e2316088c015F4BF27D86A1458A707af536A324
         </h1>
         <MdOutlineContentCopy
@@ -21,7 +21,7 @@ const Footer = () => {
           }
           className="h-10 w-10 cursor-pointer transition-all duration-200 active:scale-75"
         />
-        <p className="px-10 text-center text-xs md:text-base lg:text-lg md:px-20">
+        <p className="px-5 text-center text-xs md:text-base lg:text-lg md:px-20">
           AikiSend is free and open to public use, however we appreciate
           donations from the broader community to continually improve the
           application and keep it live.

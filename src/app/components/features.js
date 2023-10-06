@@ -8,9 +8,7 @@ const Features = () => {
   const x = useTransform(scrollYProgress, [0, 1], ["50%", "-130%"]);
   return (
     <section className="z-10 h-[310dvh] w-full sm:h-[315dvh] lg:h-[340dvh] ">
-      <div
-        className="flex h-[10vh] items-center overflow-hidden bg-primary-light dark:bg-primary-dark sm:h-[15vh] md:h-[30vh]"
-      >
+      <div className="flex h-[10vh] items-center overflow-hidden bg-primary-light dark:bg-primary-dark sm:h-[15vh] md:h-[30vh]">
         {" "}
         <motion.h1
           style={{ x }}
@@ -65,7 +63,7 @@ const Features = () => {
       </div>{" "}
       <div className="sticky  top-0 z-0 flex h-[100dvh] w-full items-center justify-center border-y-2 border-primary-dark bg-primary-light py-10  text-primary-dark dark:border-primary-light dark:bg-primary-dark dark:text-primary-light">
         <div className="flex h-full w-full flex-col items-center justify-center border-y-2 border-primary-dark py-10 text-xs dark:border-primary-light md:flex-row md:py-0 md:text-base">
-          <div className="flex h-full w-full flex-1 flex-col justify-center gap-4 border-primary-dark px-5 dark:border-primary-light md:gap-11 md:border-r-2 3xl:px-20">
+          <div className="flex h-full w-full flex-1 basis-[50%] flex-col justify-center gap-4 border-primary-dark px-5 dark:border-primary-light md:gap-11 md:border-r-2 3xl:px-20">
             <h1 className="max-w-[20rem] text-4xl font-bold md:text-6xl  lg:text-7xl xl:text-8xl 3xl:max-w-none 3xl:text-[6vw]">
               Multi-Chain Support{" "}
             </h1>
@@ -74,7 +72,7 @@ const Features = () => {
               deployment.
             </p>
           </div>
-          <div className="flex flex-1 items-center justify-center px-10 3xl:px-20">
+          <div className="flex flex-1 basis-[50%] items-center  justify-center px-10 3xl:px-20">
             <Image
               src={"/multiChainFeature.svg"}
               width={640}

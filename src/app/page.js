@@ -26,7 +26,7 @@ export default function Home() {
   }, []);
   return (
     <CustomCursorInDiv>
-      <DarkModeToggle />
+      {/* <DarkModeToggle /> */}
       <Hero />
       <Features />
       <Process />
