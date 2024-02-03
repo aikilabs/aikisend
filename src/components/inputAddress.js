@@ -144,12 +144,12 @@ const InputAddress = ({ token }) => {
         </div>
       </div>
       <div className="flex flex-col gap-y-1 px-4 py-2">
-        {token.recipient && (
+        {token.recipient.length > 0 && (
           <>
             {/* <div>
                             <h2 className="underline">List of Recipient</h2>
                         </div> */}
-            <div className="flex w-full flex-col items-center justify-center gap-y-4 px-2 text-sm font-light md:gap-y-1">
+            <div className="flex max-h-40 w-full flex-col gap-y-4 overflow-auto rounded-lg border-2 border-white py-4 px-2 text-sm font-light md:gap-y-1 ">
               {token.recipient.map((recipient, index) => {
                 return (
                   <div
@@ -173,13 +173,14 @@ const InputAddress = ({ token }) => {
                   </div>
                 );
               })}
+             
             </div>
           </>
         )}
       </div>
       <div className="space-y-4">
         <p className="text-center">or</p>
-        <UploadCSV />
+        <UploadCSV token={token} />
       </div>
     </section>
   );

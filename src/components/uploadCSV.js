@@ -7,20 +7,68 @@ import { useSelector, useDispatch } from "react-redux";
 import { Moralis } from "@/app/send/layout";
 import toast from "react-hot-toast";
 
-const UploadCSV = () => {
+const UploadCSV = ({ token }) => {
   const [addressArray, setAddressArray] = useState([]);
   const [invalidAddressArray, setInvalidAddressArray] = useState([]);
   const [hoverEffect, setHoverEffect] = useState(false);
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
   const selectedToken = useSelector((state) => state.aikiSend.selectedToken);
+  const dispatch = useDispatch();
 
   const addAddresses = async () => {
     // add total amount of addresses to the selected token
     const totalAmount = addressArray.reduce((acc, item) => {
       return acc + item.amount;
     }, 0);
-    console.log(totalAmount);
+
+    let newBalance =
+      token.balance / 10 ** token.decimals -
+      token.recipient.reduce(
+        (acc, recipient) => acc + recipient.amount / 10 ** token.decimals,
+        0,
+      );
+    if (newBalance <= 0) {
+      toast.error("Insufficient Balance");
+      return;
+    }
+    if (totalAmount > newBalance) {
+      toast.error("Insufficient Balance");
+      return;
+    }
+
+    // check if any of the addresses in addressesArray already exist in the selected token.recipient
+    const newRecipientList = addressArray.map((recipient) => {
+      const existingRecipient = token.recipient.find(
+        (item) => item.address === recipient.address,
+      );
+      if (existingRecipient) {
+        return {
+          ...existingRecipient,
+          ensName: recipient.ensName || recipient.address,
+          amount: recipient.amount * 10 ** token.decimals,
+        };
+      } else {
+        return {
+          address: recipient.address,
+          ensName: recipient.ensName || recipient.address,
+          amount: recipient.amount * 10 ** token.decimals,
+        };
+      }
+    });
+
+    const newToken = { ...token, recipient: newRecipientList };
+    const newSelectedToken = selectedToken.map((token) => {
+      if (token.token_address === newToken.token_address) {
+        return newToken;
+      } else {
+        return token;
+      }
+    });
+    dispatch(setSelectedToken(newSelectedToken));
+    setAddressArray([]);
+    setInvalidAddressArray([]);
+    toast.success("Addresses Added");
   };
 
   const fileHandler = async (file) => {
@@ -66,12 +114,14 @@ const UploadCSV = () => {
           return { address, amount, ensName };
         }),
       );
-      console.log(formattedAddresses);
       const validAddresses = formattedAddresses.filter((address) => {
         return isAddress(address.address) && address.amount > 0;
       });
       const invalidAddresses = formattedAddresses.filter(
-        (address) => !isAddress(address.address) || address.amount < 0 || isNaN(address.amount),
+        (address) =>
+          !isAddress(address.address) ||
+          address.amount < 0 ||
+          isNaN(address.amount),
       );
       if (validAddresses.length <= 0) {
         toast.error("No valid addresses found");
@@ -183,8 +233,8 @@ const UploadCSV = () => {
                 setHoverEffect(false);
               }}
               onDrop={handleFileDrop}
-              className={`flex h-40 w-full cursor-pointer flex-col justify-center gap-2 overflow-y-auto rounded-lg border-2 border-dashed p-4 ${
-                hoverEffect ? "border-gray-400" : ""
+              className={`flex h-40 w-full cursor-pointer flex-col justify-center gap-2 overflow-y-auto rounded-lg border-2 border-dashed p-4 transition-colors duration-100 ${
+                hoverEffect ? "border-gray-400 text-gray-400" : ""
               }`}
             >
               <span
@@ -192,8 +242,16 @@ const UploadCSV = () => {
                   hoverEffect ? "text-gray-400" : ""
                 } `}
               >
-                <FaFileCsv className="h-12 w-12" />
-                <span className="text-xs">
+                <FaFileCsv
+                  className={`h-12 w-12 transition-colors duration-100 ${
+                    hoverEffect ? "border-gray-400 text-gray-400" : ""
+                  }`}
+                />
+                <span
+                  className={`text-xs transition-colors duration-100 ${
+                    hoverEffect ? "border-gray-400 text-gray-400" : ""
+                  }`}
+                >
                   Drop csv file, or Click in this area to select.
                 </span>
               </span>
