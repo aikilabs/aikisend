@@ -102,6 +102,9 @@ export default function RootLayout({ children }) {
           <Web3Modal
             projectId={process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID}
             ethereumClient={ethereumClient}
+            enableExplorer={false}
+            explorerRecommendedWalletIds="NONE"
+            explorerExcludedWalletIds="ALL"
           />
         </body>
       </html>
