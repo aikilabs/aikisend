@@ -1,7 +1,7 @@
+"use client";
 import { abi } from "@/abi/abi";
 import React, { useEffect } from "react";
 import { useContractWrite, usePrepareContractWrite } from "wagmi";
-import { useContractRead } from "wagmi";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectedToken } from "@/redux/aikiSend";
 
@@ -14,16 +14,15 @@ const ApprovePermit2 = ({ token, amount }) => {
         abi: abi,
         functionName: "approve",
         args: [
-            // permit2 contract address
             "0x000000000022D473030F116dDEE9F6B43aC78BA3",
-            // max uint256 value
             "115792089237316195423570985008687907853269984665640564039457584007913129639935",
         ],
     });
+
     const { data, isLoading, isSuccess, write } = useContractWrite(config);
+
     useEffect(() => {
         if (isSuccess) {
-            // search for token in selectedToken and update allowance
             const newSelectedToken = selectedToken.map((selectedToken) => {
                 if (selectedToken.token_address === token.token_address) {
                     return {
@@ -33,31 +32,30 @@ const ApprovePermit2 = ({ token, amount }) => {
                 }
                 return selectedToken;
             });
-
             dispatch(setSelectedToken(newSelectedToken));
-
         }
     }, [isSuccess]);
 
-    return (
-        <div
-            key={token.token_address}
-            className="flex flex-col items-start justify-between gap-y-4 p-4 rounded bg-[#898a90] bg-opacity-20 w-full"
-        >
-            <h1 className="text-center w-full">{token.name}</h1>
+    const displayAmount = (amount / 10 ** token.decimals).toFixed(4);
 
-            <button
-                disabled={isLoading}
-                onClick={() => write?.()}
-                className={`  py-2.5 w-full rounded bg-[#898a90]   ${
-                    isLoading
-                        ? " text-white bg-opacity-10 "
-                        : " text-black bg-opacity-30"
-                }`}
-            >
-                {isLoading ? "loading..." : "Approve"}
-            </button>
-        </div>
+    return (
+        <tr className="border-b border-primary-dark/20 transition-colors hover:bg-primary-dark/5">
+            <td className="px-4 py-4 font-semibold">{token.name}</td>
+            <td className="px-4 py-4 text-right font-mono">{displayAmount}</td>
+            <td className="px-4 py-4 text-center">
+                <button
+                    disabled={isLoading}
+                    onClick={() => write?.()}
+                    className={`border-2 px-4 py-2 text-xs font-semibold transition-all ${
+                        isLoading
+                            ? "cursor-wait border-primary-dark/30 bg-primary-dark/10 text-primary-dark/40"
+                            : "border-accent bg-accent text-primary-dark hover:bg-transparent hover:text-accent"
+                    }`}
+                >
+                    {isLoading ? "Approving..." : "Approve"}
+                </button>
+            </td>
+        </tr>
     );
 };
 

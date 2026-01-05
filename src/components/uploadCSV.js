@@ -1,7 +1,7 @@
+"use client";
 import React, { useRef, useState } from "react";
 import { FaFileCsv } from "react-icons/fa6";
 import { isAddress } from "web3-validator";
-// import {MoralisA} from "../../src/app/send/layout";
 import { setSelectedToken } from "@/redux/aikiSend";
 import { useSelector, useDispatch } from "react-redux";
 import { Moralis } from "@/app/send/layout";
@@ -17,7 +17,6 @@ const UploadCSV = ({ token }) => {
   const dispatch = useDispatch();
 
   const addAddresses = async () => {
-    // add total amount of addresses to the selected token
     const totalAmount = addressArray.reduce((acc, item) => {
       return acc + item.amount;
     }, 0);
@@ -26,7 +25,7 @@ const UploadCSV = ({ token }) => {
       token.balance / 10 ** token.decimals -
       token.recipient.reduce(
         (acc, recipient) => acc + recipient.amount / 10 ** token.decimals,
-        0,
+        0
       );
     if (newBalance <= 0) {
       toast.error("Insufficient Balance");
@@ -37,10 +36,9 @@ const UploadCSV = ({ token }) => {
       return;
     }
 
-    // check if any of the addresses in addressesArray already exist in the selected token.recipient
     const newRecipientList = addressArray.map((recipient) => {
       const existingRecipient = token.recipient.find(
-        (item) => item.address === recipient.address,
+        (item) => item.address === recipient.address
       );
       if (existingRecipient) {
         return {
@@ -84,7 +82,7 @@ const UploadCSV = ({ token }) => {
         return split.length === 2;
       });
       if (isCorrectFormat.length <= 0) {
-        toast.error("Incorrect ` address,amount` format");
+        toast.error("Incorrect `address,amount` format");
         return;
       }
       let addresses = isCorrectFormat.map((item) => item.trim());
@@ -94,7 +92,6 @@ const UploadCSV = ({ token }) => {
           let amount = item.split(",")[1];
           let ensName;
 
-          // check if amount is a number and if number convert to number
           if (!isNaN(amount)) {
             amount = Number(amount);
           }
@@ -112,7 +109,7 @@ const UploadCSV = ({ token }) => {
           }
 
           return { address, amount, ensName };
-        }),
+        })
       );
       const validAddresses = formattedAddresses.filter((address) => {
         return isAddress(address.address) && address.amount > 0;
@@ -121,7 +118,7 @@ const UploadCSV = ({ token }) => {
         (address) =>
           !isAddress(address.address) ||
           address.amount < 0 ||
-          isNaN(address.amount),
+          isNaN(address.amount)
       );
       if (validAddresses.length <= 0) {
         toast.error("No valid addresses found");
@@ -135,12 +132,12 @@ const UploadCSV = ({ token }) => {
       return { error };
     }
   };
+
   const handleFileUpload = async (e) => {
     e.preventDefault();
     setLoading(true);
     if (e.target.files) {
       let file = e.target.files[0];
-
       await fileHandler(file);
     }
     e.target.value = "";
@@ -149,6 +146,7 @@ const UploadCSV = ({ token }) => {
     }
     setLoading(false);
   };
+
   const handleFileDrop = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -159,71 +157,79 @@ const UploadCSV = ({ token }) => {
     }
     setLoading(false);
   };
+
   const handleOver = (e) => {
     e.preventDefault();
     setHoverEffect(true);
   };
 
   return (
-    <div className="flex px-2 pb-8 md:px-6">
-      {addressArray.length > 1 ? (
-        <div className="flex w-full flex-col gap-2">
-          <section className="flex w-full flex-col justify-between gap-2 md:flex-row">
-            <div className="flex flex-1 flex-col">
-              <h1>Valid Addresses, Amount</h1>
-              <div className="h-full max-h-24 flex-1 space-y-1 overflow-auto rounded border-2 border-primary-light p-2">
+    <div className="flex w-full">
+      {addressArray.length > 0 ? (
+        <div className="flex w-full flex-col gap-4">
+          {/* Preview Tables */}
+          <div className="grid gap-4 md:grid-cols-2">
+            {/* Valid Addresses */}
+            <div className="flex flex-col">
+              <h2 className="mb-2 text-xs font-semibold text-primary-light/70">
+                Valid Addresses ({addressArray.length})
+              </h2>
+              <div className="max-h-24 overflow-auto border-2 border-primary-light/30 bg-primary-light/5 p-2 scrollbar-thin">
                 {addressArray.map((item, index) => (
-                  <div key={index} className="text-[0.65rem] md:text-xs">
-                    <span>{item.ensName ? item.ensName : item.address}</span>,{" "}
-                    <span>{item.amount}</span>
+                  <div key={index} className="flex justify-between text-xs">
+                    <span className="truncate">
+                      {item.ensName || `${item.address.slice(0, 8)}...`}
+                    </span>
+                    <span className="font-mono">{item.amount}</span>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="flex flex-1 flex-col">
-              <h1>Invalid Addresses, Amount</h1>
-              <div className="h-full max-h-24 space-y-1 overflow-auto rounded border-2 border-primary-light p-2">
-                {invalidAddressArray.map((item, index) => (
-                  <div key={index} className="text-[0.65rem] md:text-xs">
-                    <span>{item.address}</span>, <span>{item.amount}</span>
-                  </div>
-                ))}
+
+            {/* Invalid Addresses */}
+            {invalidAddressArray.length > 0 && (
+              <div className="flex flex-col">
+                <h2 className="mb-2 text-xs font-semibold text-red-400">
+                  Invalid Addresses ({invalidAddressArray.length})
+                </h2>
+                <div className="max-h-24 overflow-auto border-2 border-red-400/30 bg-red-400/5 p-2 scrollbar-thin">
+                  {invalidAddressArray.map((item, index) => (
+                    <div key={index} className="flex justify-between text-xs text-red-400">
+                      <span className="truncate">{item.address}</span>
+                      <span className="font-mono">{item.amount}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          </section>
-          <section className="flex gap-2">
+            )}
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex gap-3">
             <button
               onClick={addAddresses}
-              className="flex items-center gap-2 rounded-md border border-primary-dark bg-white px-4 py-1.5 text-sm text-primary-dark md:px-8 md:text-base"
+              className="border-2 border-accent bg-accent px-6 py-2 text-sm font-semibold text-primary-dark transition-all hover:bg-transparent hover:text-accent"
             >
-              Add
+              Add All
             </button>
-
             <button
               onClick={() => {
                 setAddressArray([]);
-                toast.success("Addresses Cleared");
+                setInvalidAddressArray([]);
+                toast.success("Cleared");
               }}
-              className="flex items-center gap-2 rounded-md border-2 border-white px-4 py-1.5 text-sm text-white md:px-8 md:text-base"
+              className="border-2 border-primary-light/50 px-6 py-2 text-sm font-semibold text-primary-light/70 transition-all hover:border-primary-light hover:text-primary-light"
             >
               Clear
             </button>
-          </section>
+          </div>
         </div>
       ) : (
         <>
           {loading ? (
-            <div
-              className={`flex h-40 w-full cursor-pointer flex-col justify-center gap-2 overflow-y-auto rounded-lg border-2 border-dashed p-4 `}
-            >
-              <span
-                className={`flex flex-col items-center justify-center gap-2 text-center text-white ${
-                  hoverEffect ? "text-gray-400" : ""
-                } `}
-              >
-                {/* <FaFileCsv className="h-12 w-12" /> */}
-                <span className="text-xs">Scanning File...</span>
-              </span>
+            <div className="flex h-24 w-full flex-col items-center justify-center gap-2 border-2 border-dashed border-primary-light/30">
+              <div className="h-5 w-5 animate-spin border-2 border-transparent border-t-accent"></div>
+              <span className="text-xs text-primary-light/50">Scanning file...</span>
             </div>
           ) : (
             <label
@@ -233,34 +239,29 @@ const UploadCSV = ({ token }) => {
                 setHoverEffect(false);
               }}
               onDrop={handleFileDrop}
-              className={`flex h-40 w-full cursor-pointer flex-col justify-center gap-2 overflow-y-auto rounded-lg border-2 border-dashed p-4 transition-colors duration-100 ${
-                hoverEffect ? "border-gray-400 text-gray-400" : ""
+              className={`flex h-24 w-full cursor-pointer flex-col items-center justify-center gap-2 border-2 border-dashed transition-all ${
+                hoverEffect
+                  ? "border-accent bg-accent/10"
+                  : "border-primary-light/30 hover:border-primary-light/50"
               }`}
             >
+              <FaFileCsv
+                className={`h-8 w-8 transition-colors ${
+                  hoverEffect ? "text-accent" : "text-primary-light/50"
+                }`}
+              />
               <span
-                className={`flex flex-col items-center justify-center gap-2 text-center text-white ${
-                  hoverEffect ? "text-gray-400" : ""
-                } `}
+                className={`text-xs transition-colors ${
+                  hoverEffect ? "text-accent" : "text-primary-light/50"
+                }`}
               >
-                <FaFileCsv
-                  className={`h-12 w-12 transition-colors duration-100 ${
-                    hoverEffect ? "border-gray-400 text-gray-400" : ""
-                  }`}
-                />
-                <span
-                  className={`text-xs transition-colors duration-100 ${
-                    hoverEffect ? "border-gray-400 text-gray-400" : ""
-                  }`}
-                >
-                  Drop csv file, or Click in this area to select.
-                </span>
+                Drop CSV or click to upload
               </span>
-
               <input
                 type="file"
                 name="fileUpload"
                 className="hidden"
-                title=" "
+                accept=".csv"
                 ref={fileInputRef}
                 onChange={handleFileUpload}
               />

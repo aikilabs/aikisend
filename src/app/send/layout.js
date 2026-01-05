@@ -113,28 +113,28 @@ const Layout = ({ children }) => {
   //   }
 
   return (
-    <main className="flex h-full flex-col">
-      <nav className="flex items-center justify-between  px-4 py-4 sm:px-8 ">
-        {/* <h1 className="text-lg font-extrabold md:text-3xl">AIKISEND</h1> */}
+    <main className="flex min-h-screen flex-col bg-primary-light font-mono text-primary-dark">
+      <nav className="flex items-center justify-between border-b-2 border-primary-dark px-4 py-4 sm:px-8">
         <Image
           src={"/logo.svg"}
           className="w-28 sm:w-36 md:ml-24"
           width={152}
           height={33.7}
+          alt="AikiSend Logo"
         />
         <div className="flex items-center gap-x-4">
           {network && (
-            <div className="hidden items-center gap-x-2 rounded border border-black px-4 py-1.5 text-sm font-normal text-black sm:flex ">
-              {network ? `${network} Network` : ""}
-              <SiHiveBlockchain className="inline-block h-5 w-5 text-yellow-200" />
+            <div className="hidden items-center gap-x-2 border-2 border-primary-dark bg-primary-light px-4 py-1.5 text-sm font-semibold text-primary-dark sm:flex">
+              {network ? `${network}` : ""}
+              <SiHiveBlockchain className="inline-block h-5 w-5 text-accent" />
             </div>
           )}
           <button
             onClick={() => open()}
-            className={` flex items-center gap-x-2 rounded border px-2 py-1.5 text-xs font-semibold text-black transition-all duration-100  sm:text-sm md:px-4   ${
+            className={`flex items-center gap-x-2 border-2 px-2 py-1.5 text-xs font-semibold transition-all duration-200 sm:text-sm md:px-4 ${
               walletConnected
-                ? " border-black font-sans"
-                : "border-blue-500 bg-blue-500 text-black"
+                ? "border-primary-dark bg-primary-light text-primary-dark hover:bg-primary-dark hover:text-primary-light"
+                : "border-primary-dark bg-primary-dark text-primary-light shadow-home-shadow hover:shadow-none"
             }`}
           >
             {walletConnected ? (
@@ -143,9 +143,7 @@ const Layout = ({ children }) => {
                   {Number(balance).toFixed(3)}
                   {balanceSymbol}
                 </span>
-                <span
-                  className={`rounded ${walletConnected && "bg-gray-300 px-1"}`}
-                >
+                <span className="border-l-2 border-primary-dark bg-accent px-2 py-0.5 text-primary-dark">
                   {address.substring(0, 4).concat(`...${address.slice(-4)}`)}
                 </span>
               </>
@@ -155,8 +153,8 @@ const Layout = ({ children }) => {
           </button>
         </div>
       </nav>
-      {children}
-      <Footer />
+      <div className="flex flex-1 flex-col">{children}</div>
+      {/* <Footer /> */}
     </main>
   );
 };

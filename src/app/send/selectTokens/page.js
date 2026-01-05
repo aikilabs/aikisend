@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import BottomSig from "@/utils/bottomSig";
 import Select from "react-select";
 import { setSelectedToken } from "@/redux/aikiSend";
 import InputAddress from "@/components/inputAddress";
@@ -31,11 +30,10 @@ const Page = () => {
                 })`,
             };
         });
-        // console.log({ availableTokens });
         setAvailableTokens(availableTokens);
-
         setIsLoading(false);
     };
+
     useEffect(() => {
         handleEffect();
         setTokenOfChoice([]);
@@ -58,17 +56,9 @@ const Page = () => {
                 decimals: ans.decimals,
                 token_address: ans.token_address,
                 recipient: [],
-                // allowance: null,
                 approved: null,
             };
-            // const newTokens = [...newSelectedToken, ans];
-            // dispatch(setSelectedToken([...newTokens]));
-            // const newAvailableTokens = availableTokens.filter(
-            //     (availableToken) => availableToken.value !== token.value
-            // );
-            // setAvailableTokens(newAvailableTokens);
         });
-
         dispatch(setSelectedToken([...newSelectedToken]));
     }, [tokenOfChoice]);
 
@@ -92,86 +82,122 @@ const Page = () => {
         option: (defaultStyles, state) => ({
             ...defaultStyles,
             "&:hover": {
-                backgroundColor: "rgba(0,0,0,0.05)",
+                backgroundColor: "#D07A25",
+                color: "#F5F5F5",
             },
-            // color: state.isSelected ? "#191970" : "#000",
-            backgroundColor: state.isSelected ? "#000" : "#fff",
-            // borderWidth: "3px",
-            // backgroundColor: "#000",
-            padding: "10px 12px",
+            color: state.isSelected ? "#F5F5F5" : "#232B2B",
+            backgroundColor: state.isSelected ? "#232B2B" : "#F5F5F5",
+            padding: "12px 16px",
+            cursor: "pointer",
+            fontFamily: "Victor Mono, monospace",
         }),
 
         control: (defaultStyles, state) => ({
             ...defaultStyles,
-            borderWidth: "3px",
-            // borderRadius: "8px",
+            borderWidth: "2px",
+            borderRadius: "0",
             maxHeight: "60px",
             overflow: "auto",
-            // backgroundColor: "#212529",
             outline: "none",
-            ring: "0px none transparent",
-            borderColor: "rgb(0 0 0 )",
+            borderColor: "#232B2B",
+            backgroundColor: "#F5F5F5",
             padding: "8px 12px",
-            boxShadow: "none",
-
+            boxShadow: state.isFocused ? "-4px 4px 0px 0px #D07A25" : "none",
+            fontFamily: "Victor Mono, monospace",
             "&:hover": {
-                // borderColor: state.isFocused ? "transparent" : "#000",
+                borderColor: "#232B2B",
             },
-            // border: "none",
-            // boxShadow: "none",
         }),
-        singleValue: (defaultStyles) => ({ ...defaultStyles, color: "#000" }),
+
+        multiValue: (defaultStyles) => ({
+            ...defaultStyles,
+            backgroundColor: "#232B2B",
+            borderRadius: "0",
+        }),
+
+        multiValueLabel: (defaultStyles) => ({
+            ...defaultStyles,
+            color: "#F5F5F5",
+            fontFamily: "Victor Mono, monospace",
+        }),
+
+        multiValueRemove: (defaultStyles) => ({
+            ...defaultStyles,
+            color: "#F5F5F5",
+            "&:hover": {
+                backgroundColor: "#D07A25",
+                color: "#232B2B",
+            },
+        }),
+
+        menu: (defaultStyles) => ({
+            ...defaultStyles,
+            borderRadius: "0",
+            border: "2px solid #232B2B",
+            boxShadow: "-4px 4px 0px 0px #D07A25",
+        }),
+
+        singleValue: (defaultStyles) => ({ 
+            ...defaultStyles, 
+            color: "#232B2B",
+            fontFamily: "Victor Mono, monospace",
+        }),
     };
-    // if (true) {
-    //     return <Loading />;
-    // }
 
     return (
-        <>
-            <section className="flex flex-col flex-1 h-full overflow-auto">
-                <div className="h-full overflow-auto scrollbar-thin gap-y-4 flex flex-col items-center px-4 py-2 ">
-                    <div className="flex relative max-w-2xl 3xl:max-w-3xl flex-col w-full">
-                        <h1 className="text-sm md:text-base">Select Tokens to send</h1>
-                        <Select
-                            className=" max-w-2xl 3xl:max-w-3xl cursor-pointer w-full rounded"
-                            styles={customStyles}
-                            classNamePrefix="select token"
-                            closeMenuOnSelect={false}
-                            isLoading={isLoading}
-                            isClearable={true}
-                            isMulti
-                            key={`select-token-${availableTokens.length}`}
-                            // value={{}}
-                            isSearchable={true}
-                            name="Select Token"
-                            options={availableTokens}
-                            onChange={(selectedOption) => {
-                                setTokenOfChoice(selectedOption);
-                            }}
-                        />
-                    </div>
-                    <div className="flex justify-end w-full">
-                        <button
-                            onClick={() => router.push("/send/approveTokens")}
-                            disabled={nextButton}
-                            className={`sm:px-10 px-4 py-1.5 text-xs sm:text-base rounded bg-[#898a90]  transition-all duration-100 ${
-                                nextButton
-                                    ? "text-white bg-opacity-20"
-                                    : "text-black cursor-pointer bg-opacity-50"
-                            }`}
-                        >
-                            Next
-                        </button>
-                    </div>
-                    <div className=" flex flex-col gap-y-6 mb-8 border-black max-w-4xl 3xl:max-w-5xl w-full ">
-                        {selectedToken.map((token, index) => {
-                            return <InputAddress token={token} key={index} />;
-                        })}
-                    </div>
+        <section className="flex flex-1 flex-col overflow-auto">
+            <div className="flex flex-1 flex-col items-center gap-y-6 overflow-auto px-4 py-6 scrollbar-thin">
+                {/* Header */}
+                <div className="w-full max-w-4xl 3xl:max-w-5xl">
+                    <h1 className="mb-2 text-2xl font-bold md:text-3xl">Select Tokens</h1>
+                    <p className="text-sm text-primary-dark/70">Choose the tokens you want to send and add recipients below.</p>
                 </div>
-            </section>
-            {/* <BottomSig /> */}
-        </>
+
+                {/* Token Selector */}
+                <div className="relative flex w-full max-w-4xl flex-col 3xl:max-w-5xl">
+                    <label className="mb-2 text-sm font-semibold">Tokens to Send</label>
+                    <Select
+                        className="w-full cursor-pointer"
+                        styles={customStyles}
+                        classNamePrefix="select-token"
+                        closeMenuOnSelect={false}
+                        isLoading={isLoading}
+                        isClearable={true}
+                        isMulti
+                        key={`select-token-${availableTokens.length}`}
+                        isSearchable={true}
+                        name="Select Token"
+                        options={availableTokens}
+                        placeholder="Search and select tokens..."
+                        onChange={(selectedOption) => {
+                            setTokenOfChoice(selectedOption);
+                        }}
+                    />
+                </div>
+
+                {/* Next Button */}
+                <div className="flex w-full max-w-4xl justify-end 3xl:max-w-5xl">
+                    <button
+                        onClick={() => router.push("/send/approveTokens")}
+                        disabled={nextButton}
+                        className={`border-2 border-primary-dark px-6 py-2 text-sm font-semibold transition-all duration-200 sm:px-10 sm:text-base ${
+                            nextButton
+                                ? "cursor-not-allowed bg-primary-dark/10 text-primary-dark/40"
+                                : "bg-primary-dark text-primary-light shadow-home-shadow hover:shadow-none"
+                        }`}
+                    >
+                        Continue →
+                    </button>
+                </div>
+
+                {/* Selected Tokens Input Cards */}
+                <div className="mb-8 flex w-full max-w-4xl flex-col gap-y-6 3xl:max-w-5xl">
+                    {selectedToken.map((token, index) => {
+                        return <InputAddress token={token} key={index} />;
+                    })}
+                </div>
+            </div>
+        </section>
     );
 };
 
